@@ -1,5 +1,6 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import { ArrowLeftToLine, ArrowRightFromLine } from "lucide-react";
 import { useContext, createContext, useState } from "react";
+import { Link } from "react-router-dom";
 
 const SidebarContext = createContext();
 
@@ -10,12 +11,14 @@ export default function Sidebar({ children }) {
     <aside className="h-screen">
       <nav className="h-full inline-flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
-          <h1>ProjectPro</h1>
+          <h1>
+            <Link to="/">Logo</Link>{" "}
+          </h1>
           <button
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
+            {expanded ? <ArrowLeftToLine /> : <ArrowRightFromLine />}
           </button>
         </div>
 
@@ -36,10 +39,9 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+              <h4 className="font-semibold">User Admin</h4>
+              <span className="text-xs text-gray-600">Admin@gmail.com</span>
             </div>
-            <MoreVertical size={20} />
           </div>
         </div>
       </nav>
