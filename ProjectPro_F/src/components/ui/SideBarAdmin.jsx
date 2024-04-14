@@ -10,7 +10,7 @@ export default function Sidebar({ children }) {
   return (
     <aside className="h-screen">
       <nav className="h-full inline-flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className=" pb-2 flex justify-between items-center">
           <h1>
             <Link to="/">Logo</Link>{" "}
           </h1>
