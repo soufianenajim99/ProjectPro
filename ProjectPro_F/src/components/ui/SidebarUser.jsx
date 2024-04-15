@@ -21,7 +21,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
-export function SidebarWithContentSeparator() {
+export function SidebarUser() {
   const [open, setOpen] = React.useState(0);
 
   const handleOpen = (value) => {
@@ -72,7 +72,7 @@ export function SidebarWithContentSeparator() {
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                RTasks
+                Tasks
               </ListItem>
               <ListItem>
                 <ListItemPrefix>
