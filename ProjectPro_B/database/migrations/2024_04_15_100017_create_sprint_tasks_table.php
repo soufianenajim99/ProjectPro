@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sprintbacklogs', function (Blueprint $table) {
+        Schema::create('sprint_tasks', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
+            $table->text('titre');
             $table->text('status');
-            $table->foreignId('sprint_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->longText('description');
+            $table->dateTime('due_date');
+            $table->foreignId('sprintbacklog_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('utilisateur_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sprintbacklogs');
+        Schema::dropIfExists('sprint_tasks');
     }
 };

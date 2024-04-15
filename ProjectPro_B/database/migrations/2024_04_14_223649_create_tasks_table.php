@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->text('titre');
+            $table->text('status');
+            $table->longText('description');
+            $table->dateTime('due_date');
+            $table->foreignId('productbacklog_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+    
             $table->timestamps();
         });
     }

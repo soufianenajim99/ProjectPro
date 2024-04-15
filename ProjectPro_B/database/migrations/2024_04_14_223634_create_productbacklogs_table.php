@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('productbacklogs', function (Blueprint $table) {
             $table->id();
+            $table->text('description');
+            $table->text('status');
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
