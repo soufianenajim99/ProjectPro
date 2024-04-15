@@ -12,6 +12,7 @@ import LoginPage from "./pages/Loginpage";
 import MainLayout from "./layouts/MainLayout";
 import Registerpage from "./pages/Registerpage";
 import AdminLayout from "./layouts/AdminLayout";
+import UserLayout from "./layouts/UserLayout";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
         <Route index element={<HomePage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}></Route>
+      <Route path="/user" element={<UserLayout />}></Route>
     </Route>
   )
 );
