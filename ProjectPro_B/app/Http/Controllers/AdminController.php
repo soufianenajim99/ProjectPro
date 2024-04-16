@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\AdminRepository;
 use App\RepositoryInterfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -15,6 +14,8 @@ class AdminController extends Controller
         $this->adminRepository = $adminRepository;
     }
     public function register(Request $request){
-        $this->adminRepository->register($request);
+        return $this->adminRepository->register($request);
         }
+
+
 }

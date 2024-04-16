@@ -18,9 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
-        $this->app->bind(AdminRepositoryInterface::class, function ($app) {
-            return new AdminRepository(new Admin());
-        });
+        $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
       
     }
 

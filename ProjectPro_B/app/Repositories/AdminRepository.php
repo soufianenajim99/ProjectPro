@@ -11,13 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminRepository implements AdminRepositoryInterface
 {
-    // protected $model;
-
-    // public function __construct(Admin $model)
-    // {
-    //     $this->model = $model;
-    // }
-    public function register(Request $request){
+   
+    public function register($request){
+       
         $admin = new Admin;
         $user = new User;
         $request->validate([
@@ -41,15 +37,13 @@ class AdminRepository implements AdminRepositoryInterface
             'message' => 'User created successfully',
             'user' => $user,
             'authorisation' => [
-                'token' => '$token',
+                'token' => $token,
                 'type' => 'bearer',
             ]
         ]);
-
-        // return response()->json([
-        //     'hhh'=>'dsd'
-        // ]);
     }
+
+  
 
 
 
