@@ -2,25 +2,38 @@
  
 namespace App\Repositories;
 
+use App\Models\Admin;
 use App\Models\User;
+use App\RepositoryInterfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AdminRepository
+class AdminRepository implements AdminRepositoryInterface
 {
+    // protected $model;
+
+    // public function __construct(Admin $model)
+    // {
+    //     $this->model = $model;
+    // }
     public function register(Request $request){
+        $admin = new Admin;
+        $user = new User;
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = $request->password;
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user->save();
+
+        $admin->user_id = $user->id;
+
+        $admin->save();
 
         $token = Auth::login($user);
         return response()->json([
@@ -28,46 +41,18 @@ class AdminRepository
             'message' => 'User created successfully',
             'user' => $user,
             'authorisation' => [
-                'token' => $token,
+                'token' => '$token',
                 'type' => 'bearer',
             ]
         ]);
+
+        // return response()->json([
+        //     'hhh'=>'dsd'
+        // ]);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
 
-        $token = Auth::attempt($credentials);
-        if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
-        }
 
-        $user = Auth::user();
-        return response()->json([
-                'status' => 'success',
-                'user' => $user,
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
 
-    }
 
-    public function logout()
-    {
-        Auth::logout();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully logged out',
-        ]);
-    }
 }

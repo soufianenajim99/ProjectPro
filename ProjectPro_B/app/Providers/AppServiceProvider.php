@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use App\Models\User;
 use App\Repositories\AdminRepository;
 use App\Repositories\AuthRepository;
+use App\RepositoryInterfaces\AdminRepositoryInterface;
 use App\RepositoryInterfaces\AuthRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +17,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
+        // $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
+        $this->app->bind(AdminRepositoryInterface::class, function ($app) {
+            return new AdminRepository(new Admin());
+        });
+      
     }
 
     /**
