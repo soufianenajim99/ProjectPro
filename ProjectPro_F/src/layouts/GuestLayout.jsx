@@ -1,8 +1,9 @@
+import { useStateContext } from "../contexts/contextproviderg";
 import Navbar from "@/components/Navbar";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useStateContext } from "@/contexts/contextproviderg";
 
-const MainLayout = () => {
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+
+export default function GuestLayout() {
   const location = useLocation();
   const loginPaths = ["/login", "/register"];
   const isLoginPath = loginPaths.some((path) =>
@@ -10,19 +11,16 @@ const MainLayout = () => {
   );
 
   const { user, token, setUser, setToken } = useStateContext();
-  // if (!token) {
-  //   return <Navigate to="/login" />;
-  // }
-  // console.log(token);
-  // console.log(user);
-  console.log("main layout");
-
+  console.log("guest layout");
+  if (token) {
+    return <Navigate to="/home" />;
+  }
   return (
     <div>
+      {/* <div>Layout</div> */}
       {!isLoginPath && <Navbar />}
+
       <Outlet />
     </div>
   );
-};
-
-export default MainLayout;
+}

@@ -29,7 +29,7 @@ export default function App() {
   ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered>
+    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered shouldHideOnScroll>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -37,26 +37,24 @@ export default function App() {
         />
         <NavbarBrand>
           <p className="font-bold text-inherit">
-            <Link to="/">ProjectPro</Link>
+            <Link to="/" className="nav-link">
+              ProjectPro
+            </Link>
           </p>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link className="nav-link" color="foreground">
             Features
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
+          <Link aria-current="page">Customers</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
+          <Link color="foreground">Integrations</Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -64,7 +62,7 @@ export default function App() {
           <Link to="/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button as={Link} color="primary" variant="flat">
             <Link to="/register">Register</Link>
           </Button>
         </NavbarItem>
@@ -81,7 +79,6 @@ export default function App() {
                   : "foreground"
               }
               className="w-full"
-              href="#"
               size="lg"
             >
               {item}

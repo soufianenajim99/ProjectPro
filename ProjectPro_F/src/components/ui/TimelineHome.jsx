@@ -34,7 +34,7 @@ export function TimelineHome() {
                 </Typography>
               </TimelineHeader>
               <TimelineBody className="pb-8">
-                <Typography color="gary" className="font-normal text-gray-600">
+                <Typography color="gray" className="font-normal text-gray-600">
                   The key to more success is to have a lot of pillows. Put it
                   this way, it took me twenty five years to get these plants,
                   twenty five years of blood sweat and tears, and I&apos;m never
@@ -59,7 +59,7 @@ export function TimelineHome() {
                 </Typography>
               </TimelineHeader>
               <TimelineBody className="pb-8">
-                <Typography color="gary" className="font-normal text-gray-600">
+                <Typography color="gray" className="font-normal text-gray-600">
                   The key to more success is to have a lot of pillows. Put it
                   this way, it took me twenty five years to get these plants,
                   twenty five years of blood sweat and tears, and I&apos;m never
@@ -83,7 +83,7 @@ export function TimelineHome() {
                 </Typography>
               </TimelineHeader>
               <TimelineBody>
-                <Typography color="gary" className="font-normal text-gray-600">
+                <Typography color="gray" className="font-normal text-gray-600">
                   The key to more success is to have a lot of pillows. Put it
                   this way, it took me twenty five years to get these plants,
                   twenty five years of blood sweat and tears, and I&apos;m never
