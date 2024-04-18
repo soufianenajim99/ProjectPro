@@ -4,7 +4,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   Input,
   DropdownItem,
   DropdownTrigger,
@@ -12,6 +11,8 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
+import { Link } from "react-router-dom";
+
 import { SearchIcon } from "./SearchIcon.jsx";
 
 const NavbarUser = () => {
@@ -19,7 +20,7 @@ const NavbarUser = () => {
     <Navbar isBordered maxWidth="full" className=" ">
       <NavbarContent justify="start">
         <NavbarItem className="mr-4">
-          <Link className="nav-link" color="foreground" to="/home">
+          <Link className="nav-link" color="foreground" to="/">
             ProjectPro
           </Link>
         </NavbarItem>

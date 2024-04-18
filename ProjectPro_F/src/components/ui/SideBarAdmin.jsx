@@ -22,6 +22,7 @@ import {
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import axiosClient from "@/axiosClient";
 import { useStateContext } from "@/contexts/contextproviderg";
+import { Link } from "react-router-dom";
 
 export function SideBarAdmin() {
   const { user, token, setUser, setToken } = useStateContext();
@@ -80,6 +81,7 @@ export function SideBarAdmin() {
                 </ListItemPrefix>
                 Tasks
               </ListItem>
+
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
@@ -119,7 +121,7 @@ export function SideBarAdmin() {
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                My-Projects
+                <Link to="/user/dashboard/projects">My-Projects</Link>
               </ListItem>
               <ListItem>
                 <ListItemPrefix>

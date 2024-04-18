@@ -22,6 +22,7 @@ import {
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import axiosClient from "@/axiosClient";
 import { useStateContext } from "@/contexts/contextproviderg";
+import { Link } from "react-router-dom";
 
 export function SidebarUser() {
   const { user, token, setUser, setToken } = useStateContext();
@@ -115,12 +116,14 @@ export function SidebarUser() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                My-Projects
-              </ListItem>
+              <Link to="/user/dashboard/projects">
+                <ListItem>
+                  <ListItemPrefix>
+                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  My-Projects
+                </ListItem>
+              </Link>
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />

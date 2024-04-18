@@ -1,3 +1,5 @@
+import UserProjectTable from "@/components/ui/UserProjectTable";
+import { User } from "lucide-react";
 import React from "react";
 
 const UserProjects = () => {
@@ -13,6 +15,9 @@ const UserProjects = () => {
         >
           Create a Project
         </a>
+      </div>
+      <div className="m-3">
+        <UserProjectTable />
       </div>
     </div>
   );
