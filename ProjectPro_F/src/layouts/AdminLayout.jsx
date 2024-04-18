@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { LayoutDashboard, Fingerprint, Bell, LogOut } from "lucide-react";
 import { AreaChart } from "lucide-react";
 import { UsersRound } from "lucide-react";
@@ -11,14 +11,21 @@ import { useStateContext } from "@/contexts/contextproviderg";
 
 const AdminLayout = () => {
   const { user, token, setUser, setToken } = useStateContext();
-
+  // console.log(user);
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   console.log("Admin layout");
 
   return (
-    <div className="w-full h-screen bg-teal-200/[.3]">
+    <div className="w-full h-screen bg-gray-50 flex flex-col">
       <NavbarUser />
-      <SideBarAdmin />
-      <Outlet />
+      <div className="flex">
+        <SideBarAdmin />
+        <div className=" mt-2 ml-2">
+          <Outlet className="flex-grow" />
+        </div>
+      </div>
     </div>
   );
 };

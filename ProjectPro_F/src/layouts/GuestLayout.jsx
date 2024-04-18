@@ -13,7 +13,7 @@ export default function GuestLayout() {
   const { user, token, setUser, setToken } = useStateContext();
   console.log("guest layout");
   if (token) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
   return (
     <div>

@@ -59,6 +59,16 @@ class AuthController extends Controller
             ]
         ]);
     }
+    public function authUser()
+    {
+        Auth::guard('api')->user()->admin()->first() ? $role = "admin" : $role = "user";
+        $user = Auth::guard('api')->user();
+        $user->role = $role;
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+        ]);
+    }
 
 
 

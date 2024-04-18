@@ -13,13 +13,16 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon.jsx";
+import { Link } from "react-router-dom";
 
 const NavbarAdmin = () => {
   return (
     <Navbar isBordered maxWidth="full" className=" ">
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
-          <p className="hidden sm:block font-bold text-inherit">ProjectPro</p>
+          <Link to="/" className="nav-link">
+            ProjectPro
+          </Link>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-3">
           {/* <NavbarItem>

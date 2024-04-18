@@ -7,6 +7,9 @@ import Registerpage from "./pages/Registerpage";
 import HomePage from "./pages/Homepage";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import UserLayout from "./layouts/UserLayout";
+import UserDashboard from "./pages/user/UserDashboard";
+import UserProjects from "./pages/user/UserProjects";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +17,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/home",
+        path: "/",
         element: <HomePage />,
       },
     ],
@@ -24,8 +27,22 @@ const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       {
-        path: "/dashboard",
+        path: "/admin/dashboard",
         element: <AdminDashboard />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <UserLayout />,
+    children: [
+      {
+        path: "/user/dashboard",
+        element: <UserDashboard />,
+      },
+      {
+        path: "/user/dashboard/projects",
+        element: <UserProjects />,
       },
     ],
   },

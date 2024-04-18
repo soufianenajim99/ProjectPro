@@ -1,3 +1,4 @@
+import axiosClient from "@/axiosClient";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,9 +9,40 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useStateContext } from "@/contexts/contextproviderg";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
+  const { user, token, setUser, setToken } = useStateContext();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const payload = {
+      password: data.password,
+      email: data.email,
+    };
+    axiosClient
+      .post("/login", payload)
+      .then(({ data }) => {
+        setUser(data.user);
+        setToken(data.authorisation.token);
+        console.log(data);
+      })
+      .catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
+  };
+
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -24,7 +56,7 @@ const LoginPage = () => {
 
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
-            <Link to="/home">
+            <Link to="/">
               <span className="sr-only">Home</span>
               <svg
                 className="h-8 sm:h-10"
@@ -48,7 +80,10 @@ const LoginPage = () => {
               nam dolorum aliquam, quibusdam aperiam voluptatum.
             </p>
 
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-8 grid grid-cols-6 gap-6"
+            >
               <div className="col-span-6">
                 <label
                   htmlFor="Email"
@@ -58,7 +93,12 @@ const LoginPage = () => {
                   Email{" "}
                 </label>
 
-                <Input type="email" id="email" placeholder="Enter your Email" />
+                <Input
+                  {...register("email")}
+                  type="email"
+                  id="email"
+                  placeholder="Enter your Email"
+                />
               </div>
               <div className="col-span-12 sm:col-span-6">
                 <label
@@ -70,6 +110,7 @@ const LoginPage = () => {
                 </label>
 
                 <Input
+                  {...register("password")}
                   type="password"
                   id="password"
                   placeholder="your password"

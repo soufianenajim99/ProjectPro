@@ -10,7 +10,7 @@ const Hero = () => {
       <div className=" h-screen flex items-center justify-center ">
         <div className="grid grid-cols-2 grid-rows-1 gap-4 items-center">
           <div>
-            <h1 className=" text-5xl mb-8 font-sans hover:font-serif">
+            <h1 className=" text-5xl mb-8 font-sans">
               Centralize and manage your projects
             </h1>
             <p className=" text-2xl font-light mb-8 font-serif">

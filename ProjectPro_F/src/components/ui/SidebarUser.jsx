@@ -20,8 +20,19 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import axiosClient from "@/axiosClient";
+import { useStateContext } from "@/contexts/contextproviderg";
 
 export function SidebarUser() {
+  const { user, token, setUser, setToken } = useStateContext();
+
+  const onLogout = (ev) => {
+    ev.preventDefault();
+    axiosClient.get("/logout").then(({}) => {
+      setUser(null);
+      setToken(null);
+    });
+  };
   const [open, setOpen] = React.useState(0);
 
   const handleOpen = (value) => {
@@ -29,12 +40,7 @@ export function SidebarUser() {
   };
 
   return (
-    <Card className="w-full max-w-[20rem] p-4 shadow-blue-gray-900/5 absolute top-0 h-screen">
-      <div className="mb-2 p-4">
-        <Typography variant="h5" color="blue-gray">
-          Sidebar
-        </Typography>
-      </div>
+    <Card className="w-full max-w-[20rem] p-4 shadow-blue-gray-900/5 sticky top-0 h-screen">
       <List>
         <Accordion
           open={open === 1}
@@ -152,7 +158,7 @@ export function SidebarUser() {
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem>
+        <ListItem onClick={onLogout}>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

@@ -18,9 +18,11 @@ const NavbarUser = () => {
   return (
     <Navbar isBordered maxWidth="full" className=" ">
       <NavbarContent justify="start">
-        <NavbarBrand className="mr-4">
-          <p className="hidden sm:block font-bold text-inherit">ProjectPro</p>
-        </NavbarBrand>
+        <NavbarItem className="mr-4">
+          <Link className="nav-link" color="foreground" to="/home">
+            ProjectPro
+          </Link>
+        </NavbarItem>
         <NavbarContent className="hidden sm:flex gap-3">
           {/* <NavbarItem>
             <Link color="foreground" href="#">

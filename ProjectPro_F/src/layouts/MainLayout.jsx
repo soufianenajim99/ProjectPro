@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useStateContext } from "@/contexts/contextproviderg";
+import { useEffect } from "react";
+import axiosClient from "@/axiosClient";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -13,9 +15,16 @@ const MainLayout = () => {
   // if (!token) {
   //   return <Navigate to="/login" />;
   // }
-  // console.log(token);
+  console.log(user);
   // console.log(user);
-  console.log("main layout");
+  // console.log("main layout");
+
+  useEffect(() => {
+    axiosClient.get("/authuser").then(({ data }) => {
+      // console.log(data.user);
+      setUser(data.user);
+    });
+  }, []);
 
   return (
     <div>

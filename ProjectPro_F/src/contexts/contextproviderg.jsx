@@ -3,8 +3,8 @@ import { useState } from "react";
 import { createContext } from "react";
 
 const StateContext = createContext({
-  user: "marco",
-  token: "555",
+  user: null,
+  token: null,
   setUser: () => {},
   setToken: () => {},
 });

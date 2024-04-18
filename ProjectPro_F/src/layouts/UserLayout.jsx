@@ -1,14 +1,24 @@
 import React from "react";
 import NavbarUser from "@/components/ui/NavbarUser";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { SidebarUser } from "@/components/ui/SidebarUser";
+import { useStateContext } from "@/contexts/contextproviderg";
 
 const UserLayout = () => {
+  const { user, token, setUser, setToken } = useStateContext();
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
   return (
-    <div className="w-full h-screen bg-teal-200/[.3]">
+    <div className="w-full h-screen bg-gray-50 flex flex-col">
       <NavbarUser />
-      <SidebarUser />
-      <Outlet />
+      <div className="flex">
+        <SidebarUser />
+        <div className="mt-2 ml-2  flex-grow">
+          <Outlet className="" />
+        </div>
+      </div>
     </div>
   );
 };

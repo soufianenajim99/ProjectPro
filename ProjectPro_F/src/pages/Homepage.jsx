@@ -4,10 +4,12 @@ import { TimelineHome } from "@/components/ui/TimelineHome";
 
 const HomePage = () => {
   return (
-    <div className="container">
-      {/* <Navbar /> */}
-      <Hero />
-      <TimelineHome />
+    <div className="bg-gray-50">
+      <div className="container ">
+        {/* <Navbar /> */}
+        <Hero />
+        <TimelineHome />
+      </div>
       <Footer />
     </div>
   );
