@@ -21,9 +21,17 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
+
+        // $file = $request->picture->name;
+        // dd($file);
+        // $fileName = date('His').$filename;
+        // $request->picture->storeAs('images/','test','public');
+
+        
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = $request->password;
+        // $user->picture = $fileName;
 
         $user->save();
 
