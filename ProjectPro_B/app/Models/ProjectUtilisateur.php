@@ -15,4 +15,10 @@ class ProjectUtilisateur extends Pivot
         'utilisateur_id',
         'role',
     ];
+
+    protected $attributes = [
+        'validated_at'=> null
+    ];
+
+    protected $dates = ['created_at', 'updated_at', 'validated_at'];
 }

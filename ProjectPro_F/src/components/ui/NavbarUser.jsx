@@ -16,7 +16,7 @@ import { useStateContext } from "@/contexts/contextproviderg.jsx";
 
 const NavbarUser = () => {
   const { user } = useStateContext();
-  console.log(user);
+  // console.log(user);
   return (
     <Navbar isBordered maxWidth="full" className=" ">
       <NavbarContent justify="start">

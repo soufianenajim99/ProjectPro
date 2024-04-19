@@ -35,13 +35,6 @@ Route::controller(UtilisateurController::class)->group(function () {
 
 
 
-
-
-
-
-
-
-
 //authenteififcation
 
 // Route::post('register',[AuthController::class,'register']);
@@ -50,3 +43,4 @@ Route::post('refresh', [AuthController::class,'refresh']);
 Route::get('authuser', [AuthController::class,'authUser']);
 // Route::patch('update', [AuthController::class,'update']);
 Route::get('logout', [AuthController::class,'logout']);
+Route::get('users', [AuthController::class,'users']);

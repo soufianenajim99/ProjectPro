@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Utilisateur;
 use App\RepositoryInterfaces\AuthRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,8 +70,13 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
-
-
-
+    public function users()
+    {
+        $users = Utilisateur::with('user')->get();
+        return response()->json([
+            'status' => 'success',
+            'user' => $users,
+        ]);
+    }
 
 }
