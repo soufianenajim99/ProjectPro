@@ -21,7 +21,6 @@ const MainLayout = () => {
 
   useEffect(() => {
     axiosClient.get("/authuser").then(({ data }) => {
-      // console.log(data.user);
       setUser(data.user);
     });
   }, []);

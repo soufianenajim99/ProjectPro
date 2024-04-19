@@ -1,10 +1,7 @@
-import React from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
-  Link,
   Input,
   DropdownItem,
   DropdownTrigger,
@@ -90,4 +87,4 @@ const NavbarAdmin = () => {
   );
 };
 
-export default NavbarUser;
+export default NavbarAdmin;
