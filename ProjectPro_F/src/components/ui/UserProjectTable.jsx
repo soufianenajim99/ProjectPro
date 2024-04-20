@@ -125,7 +125,7 @@ export default function UserProjectTable() {
         return (
           <Chip
             className="capitalize border-none gap-1 text-default-600"
-            // color={statusColorMap[user.status]}
+            color={statusColorMap[user.status]}
             size="sm"
             variant="dot"
           >

@@ -14,9 +14,21 @@ import {
 import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
 
 import axiosClient from "@/axiosClient";
-import { admins } from "./data";
+import { useForm } from "react-hook-form";
 
 const UserProjects = () => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [showUser, setShowPost] = useState({
     name: "555",
@@ -39,7 +51,7 @@ const UserProjects = () => {
   showUser.user
     ? (useers = showUser.user)
     : (useers = {
-        name: "jj",
+        name: "loading...",
       });
 
   console.log(useers);
@@ -58,15 +70,18 @@ const UserProjects = () => {
         </Button>
       </div>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal size="3xl" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                Create a new Project
               </ModalHeader>
               <ModalBody>
-                <form className="mt-8 grid grid-cols-6 gap-6">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-8 grid grid-cols-6 gap-6"
+                >
                   <div className="col-span-12 sm:col-span-6">
                     <label
                       htmlFor="FirstName"
@@ -77,8 +92,9 @@ const UserProjects = () => {
 
                     <Input
                       type="text"
-                      id="username"
-                      placeholder="Enter your username"
+                      id="name"
+                      placeholder="Enter your project name"
+                      {...register("name")}
                     />
                   </div>
 
@@ -91,9 +107,10 @@ const UserProjects = () => {
                     </label>
 
                     <Input
-                      type="email"
-                      id="email"
-                      placeholder="Enter your Email"
+                      type="text"
+                      id="description"
+                      placeholder="Enter your project description"
+                      {...register("description")}
                     />
                   </div>
 
@@ -106,13 +123,15 @@ const UserProjects = () => {
                       selectionMode="multiple"
                       placeholder="Select a user"
                       labelPlacement="outside"
+                      // selectedKeys={useers.map((item) => item.key)}
+                      {...register("team")}
                       classNames={{
-                        base: "max-w-xs",
+                        base: "",
                         trigger: "min-h-12 py-2",
                       }}
                       renderValue={(items) => {
                         return (
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-2 w-full">
                             {items.map((item) => (
                               <div
                                 key={item.key}
@@ -136,7 +155,7 @@ const UserProjects = () => {
                         );
                       }}
                     >
-                      {(user) => (
+                      {(user, index) => (
                         <SelectItem
                           key={user.id}
                           textValue={user.user.username}
