@@ -24,6 +24,10 @@ use App\RepositoryInterfaces\SprintRepositoryInterface;
 use App\RepositoryInterfaces\SprintTaskRepositoryInterface;
 use App\RepositoryInterfaces\TaskRepositoryInterface;
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
+use App\Services\ProjectService;
+use App\Services\ProjectUtilisateurService;
+use App\Services\ServicesInterfaces\ProjectServiceInterface;
+use App\Services\ServicesInterfaces\ProjectUtilisateurServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,8 +42,30 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UtilisateurRepositoryInterface::class, UtilisateurRepository::class);
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(ProductbacklogRepositoryInterface::class, ProductbacklogRepository::class);
+
+
+
+
+
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
+        $this->app->bind(ProjectServiceInterface::class , function ($app) {
+            return new ProjectService($app->make(ProjectRepositoryInterface::class));
+        });
+
+
+
+
         $this->app->bind(ProjectUtilisateurRepositoryInterface::class, ProjectUtilisateurRepository::class);
+        $this->app->bind(ProjectUtilisateurServiceInterface::class , function ($app) {
+            return new ProjectUtilisateurService($app->make(ProjectUtilisateurRepositoryInterface::class));
+        });
+
+
+
+
+
+
+
         $this->app->bind(SprintbacklogRepositoryInterface::class, SprintbacklogRepository::class);
         $this->app->bind(SprintRepositoryInterface::class, SprintRepository::class);
         $this->app->bind(SprintTaskRepositoryInterface::class, SprintTaskRepository::class);

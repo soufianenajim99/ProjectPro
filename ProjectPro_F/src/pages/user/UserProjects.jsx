@@ -15,6 +15,7 @@ import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
 
 import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
+import { Link, redirect } from "react-router-dom";
 
 const UserProjects = () => {
   const {
@@ -25,8 +26,56 @@ const UserProjects = () => {
     formState: { errors },
   } = useForm();
 
+  const [project, setProject] = useState(null);
+
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data.team);
+    let teamArray = data.team.split(",");
+    let teamNumbers = teamArray.map(Number);
+    // console.log(teamNumbers);
+
+    const payload = {
+      name: data.name,
+      description: data.description,
+    };
+    axiosClient
+      .post("/project/create", payload)
+      .then((response) => {
+        console.log(teamNumbers);
+
+        teamNumbers.map((userId) => {
+          const payload = {
+            utilisateur_id: userId,
+            project_id: response.data.data.original.project_id,
+            role: "developmentteam",
+          };
+
+          axiosClient
+            .post("/project/addMembers", payload)
+            .then((response) => ({
+              userId: userId,
+              status: "Success",
+              data: response.data,
+            }))
+            .catch((error) => ({
+              userId: userId,
+              status: "Failed",
+              error: error.response ? error.response.data : "Unknown error",
+            }));
+        });
+
+        setLoading(!loading);
+
+        // setProject(response.data.data.original.project_id);
+        // You might want to do something with projectId here,
+        // like redirecting to the project page or updating state
+      })
+      .catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -54,7 +103,7 @@ const UserProjects = () => {
         name: "loading...",
       });
 
-  console.log(useers);
+  // console.log(useers);
 
   return (
     <div>
@@ -123,7 +172,6 @@ const UserProjects = () => {
                       selectionMode="multiple"
                       placeholder="Select a user"
                       labelPlacement="outside"
-                      // selectedKeys={useers.map((item) => item.key)}
                       {...register("team")}
                       classNames={{
                         base: "",
@@ -155,7 +203,7 @@ const UserProjects = () => {
                         );
                       }}
                     >
-                      {(user, index) => (
+                      {(user) => (
                         <SelectItem
                           key={user.id}
                           textValue={user.user.username}

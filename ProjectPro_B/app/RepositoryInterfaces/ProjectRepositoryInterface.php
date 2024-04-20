@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 interface ProjectRepositoryInterface
 {
 
+    public function storeproject(array $data);
   
    
-
 }

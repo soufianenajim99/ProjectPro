@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory()->create([
+                'email' => 'admin@gmail.com',
+                'picture' => 'kisspng-computer-icons-user-setting-icon-5ae1412577dfd6.945531711524711717491.png'
+            ])
         ];
     }
 }

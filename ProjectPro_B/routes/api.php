@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,21 @@ Route::controller(AdminController::class)->group(function () {
 Route::controller(UtilisateurController::class)->group(function () {
     Route::post('utilisateur/register', 'register');
 });
+
+
+
+//projects
+Route::controller(ProjectController::class)->group(function () {
+    Route::post('project/create', 'createproject');
+    Route::post('project/addMembers', 'addingMembers');
+});
+
+
+
+
+
+
+
 
 
 
