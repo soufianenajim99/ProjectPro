@@ -17,7 +17,24 @@ import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
 import { Link, redirect } from "react-router-dom";
 
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 const UserProjects = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const {
     register,
     handleSubmit,
@@ -57,6 +74,8 @@ const UserProjects = () => {
               status: "Success",
               data: response.data,
             }))
+            .then(handleClick())
+            .then(onOpenChange())
             .catch((error) => ({
               userId: userId,
               status: "Failed",
@@ -107,6 +126,18 @@ const UserProjects = () => {
 
   return (
     <div>
+      <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Project Created Successfuly
+          </Alert>
+        </Snackbar>
+      </div>
       <div className="flex justify-between my-3 mx-3">
         <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700 my-auto">
           My Projects
