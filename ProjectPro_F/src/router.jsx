@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserLayout from "./layouts/UserLayout";
 import UserDashboard from "./pages/user/UserDashboard";
 import UserProjects from "./pages/user/UserProjects";
+import UserInbox from "./pages/user/UserInbox";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/user/dashboard/projects",
         element: <UserProjects />,
+      },
+      {
+        path: "/user/dashboard/inbox",
+        element: <UserInbox />,
       },
     ],
   },
