@@ -21,11 +21,8 @@ class UtilisateurController extends Controller
         }
 
         public function refuser_invi(string $id){
-            // return $this->utiliRepository->refuser_invi($id);
-            return response()->json([
-                'user'=>"hello",
-                'the para'=>$id
-            ]);
+            return $this->utiliRepository->refuser_invi($id);
+           
         }
         
         public function accepter_invi(string $id){

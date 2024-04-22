@@ -1,15 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Chip } from "@nextui-org/react";
 import { Button, Spinner } from "@material-tailwind/react";
-
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import axiosClient from "@/axiosClient";
 import InboxCard from "@/components/ui/InboxCard";
 import { Password } from "@mui/icons-material";
 
 const UserInbox = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Function to handle refresh
+  const handleRefresh = () => {
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+
+  console.log(refreshKey);
+
   const [loading, setLoading] = useState(true);
   const [showNoti, setshowNoti] = useState(null);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   async function getInbox() {
     setLoading(true);
@@ -26,7 +50,7 @@ const UserInbox = () => {
 
   useEffect(() => {
     getInbox();
-  }, []);
+  }, [refreshKey]);
 
   console.log(showNoti);
   return (
@@ -39,6 +63,7 @@ const UserInbox = () => {
           Not read
         </Chip>
       </div>
+
       <div>
         <div className="">
           {loading ? (
@@ -48,7 +73,13 @@ const UserInbox = () => {
             />
           ) : (
             showNoti &&
-            showNoti.map((item, index) => <InboxCard key={index} info={item} />)
+            showNoti.map((item, index) => (
+              <InboxCard
+                key={index}
+                info={item}
+                onActionComplete={handleRefresh}
+              />
+            ))
           )}
         </div>
       </div>
