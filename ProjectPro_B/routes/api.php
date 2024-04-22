@@ -32,6 +32,8 @@ Route::controller(AdminController::class)->group(function () {
 Route::controller(UtilisateurController::class)->group(function () {
     Route::post('utilisateur/register', 'register');
     Route::get('utilisateur/inbox', 'getInbox');
+    Route::get('utilisateur/refuser_invi/{id}', 'refuser_invi');
+    Route::get('utilisateur/accepter_invi/{id}', 'accepter_invi');
 });
 
 

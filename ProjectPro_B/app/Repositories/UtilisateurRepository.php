@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Inventory;
+use App\Models\ProjectUtilisateur;
 use App\Models\User;
 use App\Models\Utilisateur;
 use App\RepositoryInterfaces\ProductbacklogRepositoryInterface;
 use App\RepositoryInterfaces\ProjectRepositoryInterface;
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -53,32 +55,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
 
 
     public function getInbox(){
-        // $user_id=Auth::guard('api')->user()->utilisateur()->first()->id;
-
-        // Get the Project ID
-        $result_project = DB::table('project_utilisateur')
-        ->join('utilisateurs', 'project_utilisateur.utilisateur_id', '=', 'utilisateurs.id')
-        ->join('users', 'utilisateurs.user_id', '=', 'users.id')
-        ->join('projects', 'project_utilisateur.project_id', '=', 'projects.id')
-        ->select('projects.id')
-        ->where('project_utilisateur.utilisateur_id', '=', 5)
-        ->whereNull('project_utilisateur.validated_at')
-        ->get();
-        // $result_prj_id=$result_project->id;
-
-        // Get the Scrum master
-        $result_scrum  = DB::table('project_utilisateur')
-        ->join('utilisateurs', 'project_utilisateur.utilisateur_id', '=', 'utilisateurs.id')
-        ->join('users', 'utilisateurs.user_id', '=', 'users.id')
-        ->join('projects', 'project_utilisateur.project_id', '=', 'projects.id')
-        ->select('users.username', 'projects.name')
-        ->where('project_utilisateur.project_id', '=', 25)
-        ->where('project_utilisateur.role', '=', 'scrum master')
-        ->get();
-
-
-
-
+       $user= Auth::guard('api')->user()->utilisateur()->first()->id;
         $result = DB::table('project_utilisateur as pu')
         ->join('utilisateurs as u', 'pu.utilisateur_id', '=', 'u.id')
         ->join('users as us', 'u.user_id', '=', 'us.id')
@@ -89,16 +66,36 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         })
         ->join('utilisateurs as u2', 'pu2.utilisateur_id', '=', 'u2.id')
         ->join('users as us2', 'u2.user_id', '=', 'us2.id')
-        ->select('p.id as project_id', 'p.name as project_name', 'us2.username as scrum_master_username','us2.picture as scrum_master_picture')
-        ->where('pu.utilisateur_id', '=', 5)
+        ->select('p.id as project_id', 'p.name as project_name', 'us2.username as scrum_master_username','us2.picture as scrum_master_picture','pu.id as invitation_id')
+        ->where('pu.utilisateur_id', '=',$user )
         ->whereNull('pu.validated_at')
         ->get();
     
-
-
-
     return response()->json([
         'project_Inbox' => $result,
     ]);
     }
+
+    public function refuser_invi(string $id){
+         $pu = ProjectUtilisateur::findOrFail($id);
+         $pu->delete();
+         return response()->json([
+            'invitation_supprimer' => $pu,
+        ]);
+
+    }
+    public function accepter_invi(string $id){
+         $pu = ProjectUtilisateur::findOrFail($id);
+         $pu->validated_at = Carbon::now();
+         $pu->save();
+         return response()->json([
+            'invitation_valider' => $pu,
+        ]);
+
+    }
+
+
+
+
+
 }

@@ -17,4 +17,11 @@ class UtilisateurService implements UtilisateurServiceInterface
     public function getInbox(){
      return $this->utilisateurrepository->getInbox();
     }
+    public function refuser_invi(string $id){
+        return $this->utilisateurrepository->refuser_invi($id);
+    }
+
+    public function accepter_invi(string $id){
+        return $this->utilisateurrepository->accepter_invi($id);
+    }
 }

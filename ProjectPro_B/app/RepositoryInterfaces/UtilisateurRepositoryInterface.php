@@ -10,6 +10,9 @@ interface UtilisateurRepositoryInterface
 
     public function register(Request $request);
     public function getInbox();
+    public function refuser_invi(string $id);
+    public function accepter_invi(string $id);
+
   
    
 
