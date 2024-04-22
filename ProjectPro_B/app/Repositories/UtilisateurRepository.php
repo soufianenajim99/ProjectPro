@@ -95,7 +95,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
     }
 
     public function getProjects(){
-        $projects = DB::table('projects as p')
+    $projectData = DB::table('projects as p')
     ->join('project_utilisateur as pu', 'p.id', '=', 'pu.project_id')
     ->join('utilisateurs as ut', 'pu.utilisateur_id', '=', 'ut.id')
     ->join('users as u', 'ut.user_id', '=', 'u.id')
@@ -105,7 +105,21 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
               ->where('utilisateur_id', 1);
     })
     ->orderBy('p.name')
-    ->get(['p.name', 'u.username', 'u.email']);
+    ->get(['p.id as project_id', 'p.name as project_name', 'u.username', 'u.email','u.picture']);
+
+
+    $projects = [];
+
+    foreach ($projectData as $data) {
+        $projects[$data->project_id]['name'] = $data->project_name;
+        $projects[$data->project_id]['users'][] = [
+            'username' => $data->username,
+            'email' => $data->email,
+            'picture' => $data->picture,
+        ];
+    }
+    
+    $projects = array_values($projects);
     
     return response()->json([
         'projects_list' => $projects,
