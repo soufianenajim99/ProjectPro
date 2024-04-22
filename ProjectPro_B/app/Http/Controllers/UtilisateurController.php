@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
+use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
 use Illuminate\Http\Request;
 
 class UtilisateurController extends Controller
 {
     protected $utiliRepository;
+    protected $utiliService;
 
-    public function __construct(UtilisateurRepositoryInterface $utiliRepository)
+    public function __construct(UtilisateurRepositoryInterface $utiliRepository,UtilisateurServiceInterface $utiliService)
     {
         $this->utiliRepository = $utiliRepository;
+        $this->utiliService = $utiliService;
     }
     public function register(Request $request){
         return $this->utiliRepository->register($request);
@@ -28,5 +31,11 @@ class UtilisateurController extends Controller
         public function accepter_invi(string $id){
             return $this->utiliRepository->accepter_invi($id);
         }
+
+        public function getProjects(){
+            return $this->utiliService->getProjects();
+        }
+
+
 }
         

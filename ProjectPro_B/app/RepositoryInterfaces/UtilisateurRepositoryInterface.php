@@ -12,6 +12,9 @@ interface UtilisateurRepositoryInterface
     public function getInbox();
     public function refuser_invi(string $id);
     public function accepter_invi(string $id);
+    
+    public function getProjects();
+
 
   
    

@@ -34,6 +34,7 @@ Route::controller(UtilisateurController::class)->group(function () {
     Route::get('utilisateur/inbox', 'getInbox');
     Route::get('utilisateur/refuser_invi/{id}', 'refuser_invi');
     Route::get('utilisateur/accepter_invi/{id}', 'accepter_invi');
+    Route::get('utilisateur/getProjects', 'getProjects');
 });
 
 

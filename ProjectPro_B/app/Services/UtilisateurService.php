@@ -24,4 +24,9 @@ class UtilisateurService implements UtilisateurServiceInterface
     public function accepter_invi(string $id){
         return $this->utilisateurrepository->accepter_invi($id);
     }
+
+    public function getProjects(){
+        return $this->utilisateurrepository->getProjects();
+    }
+
 }

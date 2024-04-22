@@ -94,6 +94,26 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
 
     }
 
+    public function getProjects(){
+        $projects = DB::table('projects as p')
+    ->join('project_utilisateur as pu', 'p.id', '=', 'pu.project_id')
+    ->join('utilisateurs as ut', 'pu.utilisateur_id', '=', 'ut.id')
+    ->join('users as u', 'ut.user_id', '=', 'u.id')
+    ->whereIn('p.id', function($query) {
+        $query->select('project_id')
+              ->from('project_utilisateur')
+              ->where('utilisateur_id', 1);
+    })
+    ->orderBy('p.name')
+    ->get(['p.name', 'u.username', 'u.email']);
+    
+    return response()->json([
+        'projects_list' => $projects,
+    ]);
+    }
+
+
+
 
 
 

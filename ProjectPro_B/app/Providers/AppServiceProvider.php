@@ -28,6 +28,8 @@ use App\Services\ProjectService;
 use App\Services\ProjectUtilisateurService;
 use App\Services\ServicesInterfaces\ProjectServiceInterface;
 use App\Services\ServicesInterfaces\ProjectUtilisateurServiceInterface;
+use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
+use App\Services\UtilisateurService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,7 +41,15 @@ class AppServiceProvider extends ServiceProvider
     {
         // $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
         $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
+
+
         $this->app->bind(UtilisateurRepositoryInterface::class, UtilisateurRepository::class);
+        $this->app->bind(UtilisateurServiceInterface::class , function ($app) {
+            return new UtilisateurService($app->make(UtilisateurRepositoryInterface::class));
+        });
+
+
+
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(ProductbacklogRepositoryInterface::class, ProductbacklogRepository::class);
 
