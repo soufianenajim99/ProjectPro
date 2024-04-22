@@ -11,11 +11,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
+import { Select, SelectItem, Avatar } from "@nextui-org/react";
 
 import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
-import { Link, redirect } from "react-router-dom";
+// import { Link, redirect } from "react-router-dom";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -35,15 +35,9 @@ const UserProjects = () => {
     setOpen(false);
   };
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  const [project, setProject] = useState(null);
+  // const [project, setProject] = useState(null);
 
   const onSubmit = (data) => {
     // console.log(data.team);

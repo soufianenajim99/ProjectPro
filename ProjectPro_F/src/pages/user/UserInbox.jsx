@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Chip } from "@nextui-org/react";
-import { Button } from "@material-tailwind/react";
+import { Button, Spinner } from "@material-tailwind/react";
 
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Typography,
-} from "@material-tailwind/react";
+import { Card, CardBody, Typography } from "@material-tailwind/react";
+import axiosClient from "@/axiosClient";
+import InboxCard from "@/components/ui/InboxCard";
+import { Password } from "@mui/icons-material";
 
 const UserInbox = () => {
+  const [loading, setLoading] = useState(true);
+  const [showNoti, setshowNoti] = useState(null);
+
+  async function getInbox() {
+    setLoading(true);
+    try {
+      const response = await axiosClient.get(`/utilisateur/inbox`);
+      // .then(console.log(response.data));
+      setshowNoti(response.data.project_Inbox);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getInbox();
+  }, []);
+
+  console.log(showNoti);
   return (
     <div>
       <div className="flex justify-between my-3 mx-3">
@@ -22,141 +41,15 @@ const UserInbox = () => {
       </div>
       <div>
         <div className="">
-          <Card className="mt-6 w-11/12 flex">
-            <CardBody className=" flex gap-5 items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <Avatar
-                  isBordered
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                />
-                <div>
-                  <Typography variant="h5" color="blue-gray" className="">
-                    Marco
-                  </Typography>
-                  <Typography>
-                    Invited you to join his Project teslabuild
-                  </Typography>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button color="red" className="rounded-full">
-                  Refusez
-                </Button>
-                <Button color="green" className="rounded-full">
-                  Accpeter
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-          <Card className="mt-6 w-11/12 flex">
-            <CardBody className=" flex gap-5 items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <Avatar
-                  isBordered
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                />
-                <div>
-                  <Typography variant="h5" color="blue-gray" className="">
-                    Marco
-                  </Typography>
-                  <Typography>
-                    Invited you to join his Project teslabuild
-                  </Typography>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button color="red" className="rounded-full">
-                  Refusez
-                </Button>
-                <Button color="green" className="rounded-full">
-                  Accpeter
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-          <Card className="mt-6 w-11/12 flex">
-            <CardBody className=" flex gap-5 items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <Avatar
-                  isBordered
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                />
-                <div>
-                  <Typography variant="h5" color="blue-gray" className="">
-                    Marco
-                  </Typography>
-                  <Typography>
-                    Invited you to join his Project teslabuild
-                  </Typography>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button color="red" className="rounded-full">
-                  Refusez
-                </Button>
-                <Button color="green" className="rounded-full">
-                  Accpeter
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-          <Card className="mt-6 w-11/12 flex">
-            <CardBody className=" flex gap-5 items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <Avatar
-                  isBordered
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                />
-                <div>
-                  <Typography variant="h5" color="blue-gray" className="">
-                    Marco
-                  </Typography>
-                  <Typography>
-                    Invited you to join his Project teslabuild
-                  </Typography>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button color="red" className="rounded-full">
-                  Refusez
-                </Button>
-                <Button color="green" className="rounded-full">
-                  Accpeter
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-          <Card className="mt-6 w-11/12 flex">
-            <CardBody className=" flex gap-5 items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <Avatar
-                  isBordered
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                />
-                <div>
-                  <Typography variant="h5" color="blue-gray" className="">
-                    Marco
-                  </Typography>
-                  <Typography>
-                    Invited you to join his Project teslabuild
-                  </Typography>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Button color="red" className="rounded-full">
-                  Refusez
-                </Button>
-                <Button color="green" className="rounded-full">
-                  Accpeter
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
+          {loading ? (
+            <Spinner
+              className="h-16 w-16 text-gray-900/50 justify-self-end"
+              color="green"
+            />
+          ) : (
+            showNoti &&
+            showNoti.map((item, index) => <InboxCard key={index} info={item} />)
+          )}
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ interface UtilisateurRepositoryInterface
 {
 
     public function register(Request $request);
+    public function getInbox();
   
    
 

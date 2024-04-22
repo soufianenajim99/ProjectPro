@@ -16,4 +16,11 @@ class UtilisateurController extends Controller
     public function register(Request $request){
         return $this->utiliRepository->register($request);
         }
+
+
+
+
+        public function getInbox(){
+            return $this->utiliRepository->getInbox();
+        }
 }

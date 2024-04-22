@@ -31,6 +31,7 @@ Route::controller(AdminController::class)->group(function () {
 //utilisateur
 Route::controller(UtilisateurController::class)->group(function () {
     Route::post('utilisateur/register', 'register');
+    Route::get('utilisateur/inbox', 'getInbox');
 });
 
 
