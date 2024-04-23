@@ -76,12 +76,7 @@ const UserProjects = () => {
               error: error.response ? error.response.data : "Unknown error",
             }));
         });
-
         setLoading(!loading);
-
-        // setProject(response.data.data.original.project_id);
-        // You might want to do something with projectId here,
-        // like redirecting to the project page or updating state
       })
       .catch((err) => {
         const response = err.response;
@@ -95,6 +90,7 @@ const UserProjects = () => {
   const [showUser, setShowPost] = useState({
     name: "555",
   });
+  const [showProjects, setShowProjects] = useState();
   const [loading, setLoading] = useState(false);
   async function getPosts() {
     try {
@@ -105,9 +101,19 @@ const UserProjects = () => {
       console.error(error);
     }
   }
+  async function getProjects() {
+    try {
+      const response = await axiosClient.get("/utilisateur/getProjects");
+      setShowProjects(response.data.projects_list);
+      setLoading(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     getPosts();
+    getProjects();
   }, []);
   let useers;
   showUser.user
@@ -116,7 +122,7 @@ const UserProjects = () => {
         name: "loading...",
       });
 
-  // console.log(useers);
+  console.log(showProjects);
 
   return (
     <div>

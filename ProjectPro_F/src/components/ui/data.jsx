@@ -1,4 +1,5 @@
-import React from "react";
+import axiosClient from "@/axiosClient";
+import React, { useState } from "react";
 const columns = [
   { name: "ID", uid: "id", sortable: true },
   { name: "NAME", uid: "name", sortable: true },
@@ -19,7 +20,7 @@ const statusOptions = [
 const users = [
   {
     id: 1,
-    name: "Tony Reichert",
+    name: "Tony Reit",
     role: "CEO",
     team: "Management",
     status: "active",
