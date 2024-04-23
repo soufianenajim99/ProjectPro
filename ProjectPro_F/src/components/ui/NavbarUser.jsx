@@ -10,7 +10,6 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-
 import { SearchIcon } from "./SearchIcon.jsx";
 import { useStateContext } from "@/contexts/contextproviderg.jsx";
 

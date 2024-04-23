@@ -13,7 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
   Pagination,
   AvatarGroup,
   Avatar,
@@ -23,7 +22,7 @@ import { PlusIcon } from "./PlusIcon";
 import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
-import { columns, users, statusOptions } from "./data";
+import { columns, statusOptions } from "./data";
 import { capitalize } from "./utils";
 
 const statusColorMap = {
@@ -137,7 +136,7 @@ export default function UserProjectTable({ projects }) {
       case "users":
         // Display each user's username and email in separate lines
         return (
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center">
             <div>
               <AvatarGroup
                 isBordered
@@ -172,7 +171,7 @@ export default function UserProjectTable({ projects }) {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="relative flex items-center gap-2">
             <Dropdown className="bg-background border-1 border-default-200">
               <DropdownTrigger>
                 <Button isIconOnly radius="full" size="sm" variant="light">

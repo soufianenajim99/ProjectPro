@@ -18,8 +18,8 @@ const AdminLayout = () => {
       <NavbarAdmin />
       <div className="flex">
         <SideBarAdmin />
-        <div className=" mt-2 ml-2">
-          <Outlet className="flex-grow" />
+        <div className=" mt-2 ml-2 flex-grow">
+          <Outlet className="" />
         </div>
       </div>
     </div>
