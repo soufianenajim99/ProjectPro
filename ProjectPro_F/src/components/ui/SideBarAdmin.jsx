@@ -106,21 +106,25 @@ export function SideBarAdmin() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                <Link to="/user/dashboard/projects">Projects</Link>
-              </ListItem>
+              <Link to="/admin/projects">
+                <ListItem>
+                  <ListItemPrefix>
+                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  Projects
+                </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Users
-        </ListItem>
+        <Link to="/admin/users">
+          <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Users
+          </ListItem>
+        </Link>
         <hr className="my-2 border-blue-gray-50" />
         <ListItem>
           <ListItemPrefix>

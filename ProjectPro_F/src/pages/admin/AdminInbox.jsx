@@ -1,7 +1,7 @@
 import React from "react";
 
 const AdminInbox = () => {
-  return <div></div>;
+  return <div>Admin Inbox</div>;
 };
 
 export default AdminInbox;

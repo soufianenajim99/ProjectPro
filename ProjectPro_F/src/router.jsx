@@ -11,6 +11,8 @@ import UserLayout from "./layouts/UserLayout";
 import UserDashboard from "./pages/user/UserDashboard";
 import UserProjects from "./pages/user/UserProjects";
 import UserInbox from "./pages/user/UserInbox";
+import AdminProjects from "./pages/admin/AdminProjects";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard",
         element: <AdminDashboard />,
+      },
+      {
+        path: "/admin/projects",
+        element: <AdminProjects />,
+      },
+      {
+        path: "/admin/users",
+        element: <AdminUsers />,
       },
     ],
   },
