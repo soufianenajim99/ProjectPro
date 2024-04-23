@@ -16,7 +16,6 @@ const statusOptions = [
   { name: "Paused", uid: "paused" },
   { name: "Vacation", uid: "vacation" },
 ];
-
 const users = [
   {
     id: 1,

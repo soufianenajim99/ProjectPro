@@ -15,6 +15,8 @@ import {
   Chip,
   User,
   Pagination,
+  AvatarGroup,
+  Avatar,
 } from "@nextui-org/react";
 
 import { PlusIcon } from "./PlusIcon";
@@ -125,41 +127,36 @@ export default function UserProjectTable({ projects }) {
 
     switch (columnKey) {
       case "name":
-        return (
-          <User
-            avatarProps={{ radius: "full", size: "sm", src: user.avatar }}
-            classNames={{
-              description: "text-default-500",
-            }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
+        return <p className="text-bold text-small capitalize">{cellValue}</p>;
       case "role":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">
-              {user.team}
-            </p>
           </div>
         );
       case "users":
         // Display each user's username and email in separate lines
         return (
           <div className="flex flex-col">
-            {user.users.map((user, index) => (
-              <div key={index} className="flex flex-col">
-                <p className="text-bold text-small capitalize">
-                  {user.username}
-                </p>
-                <p className="text-bold text-tiny capitalize text-default-500">
-                  {user.username}
-                </p>
-              </div>
-            ))}
+            <div>
+              <AvatarGroup
+                isBordered
+                max={3}
+                total={user.users.length - 3}
+                renderCount={(count) => (
+                  <p className="text-small text-foreground font-medium ms-2">
+                    +{count} others
+                  </p>
+                )}
+              >
+                {user.users.map((user, index) => (
+                  <Avatar
+                    key={index}
+                    src={`http://127.0.0.1:8000/storage/images/profile/${user.picture}`}
+                  />
+                ))}
+              </AvatarGroup>
+            </div>
           </div>
         );
       case "status":
