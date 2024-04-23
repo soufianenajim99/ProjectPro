@@ -42,6 +42,11 @@ class AdminRepository implements AdminRepositoryInterface
             ]
         ]);
     }
+    public function getUsers(){
+        $users = User::all();
+        return 
+        
+    }
 
   
 

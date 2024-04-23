@@ -18,6 +18,10 @@ class Project extends Model
         'description',
     ];
 
+    protected $attributes = [
+        'status' => 'active',
+    ];
+
 
     public function productbacklog(): HasOne
     {

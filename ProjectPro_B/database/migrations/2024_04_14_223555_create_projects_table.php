@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('name');
             $table->longText('description');
+            $table->enum('status', ['active', 'paused','finished']);
             $table->timestamps();
         });
     }
