@@ -104,7 +104,7 @@ const UserProjects = () => {
   async function getProjects() {
     try {
       const response = await axiosClient.get("/utilisateur/getProjects");
-      setShowProjects(response.data.projects_list);
+      setShowProjects(response.data);
       setLoading(true);
     } catch (error) {
       console.error(error);
@@ -122,7 +122,7 @@ const UserProjects = () => {
         name: "loading...",
       });
 
-  console.log(showProjects);
+  // console.log(showProjects);
 
   return (
     <div>
@@ -278,7 +278,7 @@ const UserProjects = () => {
       </Modal>
 
       <div className="m-3">
-        <UserProjectTable />
+        <UserProjectTable projects={showProjects} />
       </div>
     </div>
   );

@@ -105,13 +105,15 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
               ->where('utilisateur_id', 1);
     })
     ->orderBy('p.name')
-    ->get(['p.id as project_id', 'p.name as project_name', 'u.username', 'u.email','u.picture']);
+    ->get(['p.id as project_id', 'p.name as project_name', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
 
 
     $projects = [];
 
     foreach ($projectData as $data) {
         $projects[$data->project_id]['name'] = $data->project_name;
+        $projects[$data->project_id]['description'] = $data->project_description;
+        $projects[$data->project_id]['id'] = $data->project_id;
         $projects[$data->project_id]['users'][] = [
             'username' => $data->username,
             'email' => $data->email,

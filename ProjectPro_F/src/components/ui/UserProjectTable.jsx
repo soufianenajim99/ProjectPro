@@ -30,9 +30,34 @@ const statusColorMap = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions", "team"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "name",
+  "description",
+  "users",
+  "actions",
+  "id",
+];
 
-export default function UserProjectTable() {
+export default function UserProjectTable({ projects }) {
+  // console.log(projects);
+  let project_linked = projects
+    ? projects.projects_list
+    : [
+        {
+          id: 1,
+          name: "loading",
+          description: "loading",
+          users: [{ username: "loko" }, { username: "loko2" }],
+        },
+        {
+          id: 2,
+          name: "loading",
+          description: "loading",
+          users: [{ username: "loko" }, { username: "loko2" }],
+        },
+      ];
+  console.log(project_linked[0].users);
+
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -46,7 +71,7 @@ export default function UserProjectTable() {
   });
   const [page, setPage] = React.useState(1);
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const pages = Math.ceil(project_linked.length / rowsPerPage);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -59,7 +84,7 @@ export default function UserProjectTable() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredUsers = [...project_linked];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -76,7 +101,7 @@ export default function UserProjectTable() {
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [project_linked, filterValue, statusFilter]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -119,6 +144,22 @@ export default function UserProjectTable() {
             <p className="text-bold text-tiny capitalize text-default-500">
               {user.team}
             </p>
+          </div>
+        );
+      case "users":
+        // Display each user's username and email in separate lines
+        return (
+          <div className="flex flex-col">
+            {user.users.map((user, index) => (
+              <div key={index} className="flex flex-col">
+                <p className="text-bold text-small capitalize">
+                  {user.username}
+                </p>
+                <p className="text-bold text-tiny capitalize text-default-500">
+                  {user.username}
+                </p>
+              </div>
+            ))}
           </div>
         );
       case "status":
@@ -171,6 +212,7 @@ export default function UserProjectTable() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        {/* {console.log(project_linked)} */}
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -248,7 +290,7 @@ export default function UserProjectTable() {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            Total {project_linked.length} users
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -270,7 +312,7 @@ export default function UserProjectTable() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    users.length,
+    project_linked.length,
     hasSearchFilter,
   ]);
 
