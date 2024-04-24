@@ -15,7 +15,7 @@ import {
 import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
-import { columns, users } from "./data";
+import { columns } from "./data";
 
 const statusColorMap = {
   active: "success",
@@ -23,18 +23,37 @@ const statusColorMap = {
   vacation: "warning",
 };
 
-export default function AdminUsersTable() {
+export default function AdminUsersTable({ useers }) {
+  const users_linked = React.useMemo(() => {
+    return useers && useers.users
+      ? useers.users
+      : [
+          {
+            id: 1,
+            name: "loading",
+            email: "loading",
+            deleted_at: "active",
+          },
+          {
+            id: 2,
+            name: "loading",
+            email: "loading",
+            deleted_at: "active",
+          },
+        ];
+  }, [useers]);
+
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 5;
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const pages = Math.ceil(users_linked.length / rowsPerPage);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return users.slice(start, end);
-  }, [page, users]);
+    return users_linked.slice(start, end);
+  }, [page, users_linked]);
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
@@ -42,33 +61,28 @@ export default function AdminUsersTable() {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
+            avatarProps={{
+              radius: "lg",
+              src: `http://127.0.0.1:8000/storage/images/profile/${user.picture}`,
+            }}
             description={user.email}
             name={cellValue}
           >
             {user.email}
           </User>
         );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
       case "status":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
+            color={statusColorMap[user.deleted_at]}
+            size=""
             variant="flat"
           >
             {cellValue}
           </Chip>
         );
+
       case "actions":
         return (
           <div className="relative flex items-center gap-2">

@@ -37,13 +37,9 @@ const UserProjects = () => {
 
   const { register, handleSubmit } = useForm();
 
-  // const [project, setProject] = useState(null);
-
   const onSubmit = (data) => {
-    // console.log(data.team);
     let teamArray = data.team.split(",");
     let teamNumbers = teamArray.map(Number);
-    // console.log(teamNumbers);
 
     const payload = {
       name: data.name,
