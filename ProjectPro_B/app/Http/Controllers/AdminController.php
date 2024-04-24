@@ -23,6 +23,9 @@ class AdminController extends Controller
     public function getUsers(){
         return $this->adminservice->getUsers();
         }
+    public function getProjects(){
+        return $this->adminservice->getProjects();
+        }
 
 
 }

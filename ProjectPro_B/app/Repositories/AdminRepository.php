@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Admin;
+use App\Models\Project;
 use App\Models\User;
 use App\RepositoryInterfaces\AdminRepositoryInterface;
 use Illuminate\Http\Request;
@@ -47,7 +48,12 @@ class AdminRepository implements AdminRepositoryInterface
         return response()->json([
             'users'=>$users,
         ]);
-        
+    }
+    public function getProjects(){
+        $projetcs=Project::all();
+        return response()->json([
+            'Projects'=>$projetcs,
+        ]);
     }
 
   
