@@ -5,23 +5,23 @@ import React, { useEffect, useState } from "react";
 const AdminProjects = () => {
   const [showProjects, setShowProjects] = useState();
   const [loading, setLoading] = useState(false);
-  async function getUsers() {
+  async function getProjects() {
     try {
-      const response = await axiosClient.get("/admin/getusers");
-      setShowUsers(response.data);
+      const response = await axiosClient.get("/admin/getprojects");
+      setShowProjects(response.data);
       setLoading(true);
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-    getUsers();
+    getProjects();
   }, []);
-  console.log(showUsers);
+  // console.log(showProjects);
   return (
     <div>
       <div className=" mt-28">
-        <AdminProjectsTable />
+        <AdminProjectsTable projects={showProjects} />
       </div>
     </div>
   );

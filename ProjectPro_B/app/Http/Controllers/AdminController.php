@@ -27,5 +27,4 @@ class AdminController extends Controller
         return $this->adminservice->getProjects();
         }
 
-
 }
