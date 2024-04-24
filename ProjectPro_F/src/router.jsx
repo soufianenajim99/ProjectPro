@@ -13,6 +13,8 @@ import UserProjects from "./pages/user/UserProjects";
 import UserInbox from "./pages/user/UserInbox";
 import AdminProjects from "./pages/admin/AdminProjects";
 import AdminUsers from "./pages/admin/AdminUsers";
+import UserProfile from "./pages/user/UserProfile";
+import AdminProfile from "./pages/admin/AdminProfile";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
         path: "/admin/users",
         element: <AdminUsers />,
       },
+      {
+        path: "/admin/profile",
+        element: <AdminProfile />,
+      },
     ],
   },
   {
@@ -58,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/user/dashboard/inbox",
         element: <UserInbox />,
+      },
+      {
+        path: "/user/dashboard/profile",
+        element: <UserProfile />,
       },
     ],
   },

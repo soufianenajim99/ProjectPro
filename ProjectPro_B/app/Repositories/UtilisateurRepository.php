@@ -102,7 +102,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
     ->whereIn('p.id', function($query) {
         $query->select('project_id')
               ->from('project_utilisateur')
-              ->where('utilisateur_id', 1);
+              ->where('utilisateur_id', Auth::guard('api')->user()->utilisateur()->first()->id);
     })
     ->orderBy('p.name')
     ->get(['p.id as project_id', 'p.name as project_name', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
