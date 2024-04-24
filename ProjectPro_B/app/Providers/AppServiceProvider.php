@@ -24,8 +24,10 @@ use App\RepositoryInterfaces\SprintRepositoryInterface;
 use App\RepositoryInterfaces\SprintTaskRepositoryInterface;
 use App\RepositoryInterfaces\TaskRepositoryInterface;
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
+use App\Services\AdminService;
 use App\Services\ProjectService;
 use App\Services\ProjectUtilisateurService;
+use App\Services\ServicesInterfaces\AdminServiceInterface;
 use App\Services\ServicesInterfaces\ProjectServiceInterface;
 use App\Services\ServicesInterfaces\ProjectUtilisateurServiceInterface;
 use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
@@ -41,8 +43,12 @@ class AppServiceProvider extends ServiceProvider
     {
         // $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
         $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
+        $this->app->bind(AdminServiceInterface::class , function ($app) {
+            return new AdminService($app->make(AdminRepositoryInterface::class));
+        });
 
 
+        
         $this->app->bind(UtilisateurRepositoryInterface::class, UtilisateurRepository::class);
         $this->app->bind(UtilisateurServiceInterface::class , function ($app) {
             return new UtilisateurService($app->make(UtilisateurRepositoryInterface::class));
