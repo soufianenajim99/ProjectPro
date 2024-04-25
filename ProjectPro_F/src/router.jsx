@@ -15,6 +15,7 @@ import AdminProjects from "./pages/admin/AdminProjects";
 import AdminUsers from "./pages/admin/AdminUsers";
 import UserProfile from "./pages/user/UserProfile";
 import AdminProfile from "./pages/admin/AdminProfile";
+import UserProjectsList from "./pages/user/UserProjectsList";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/user/dashboard/profile",
         element: <UserProfile />,
+      },
+      {
+        path: "/user/dashboard/projects_list",
+        element: <UserProjectsList />,
       },
     ],
   },

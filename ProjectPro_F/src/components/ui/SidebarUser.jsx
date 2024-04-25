@@ -69,12 +69,15 @@ export function SidebarUser() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Analytics
-              </ListItem>
+              <Link to="/user/dashboard">
+                <ListItem>
+                  <ListItemPrefix>
+                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  Analytics
+                </ListItem>
+              </Link>
+
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
@@ -124,12 +127,14 @@ export function SidebarUser() {
                   My-Projects
                 </ListItem>
               </Link>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Create Projects
-              </ListItem>
+              <Link to="/user/dashboard/projects_list">
+                <ListItem>
+                  <ListItemPrefix>
+                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  Projects List
+                </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>
