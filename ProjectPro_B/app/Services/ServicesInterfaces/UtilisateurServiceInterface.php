@@ -8,6 +8,7 @@ interface UtilisateurServiceInterface
     public function refuser_invi(string $id);
     public function accepter_invi(string $id);
     public function getProjects();
+    public function updateProfile(array $data);
     
 
 }

@@ -14,6 +14,7 @@ interface UtilisateurRepositoryInterface
     public function accepter_invi(string $id);
     
     public function getProjects();
+    public function updateProfile(array $data);
 
 
   

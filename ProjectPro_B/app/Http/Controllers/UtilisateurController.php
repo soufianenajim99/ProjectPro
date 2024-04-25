@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
 use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UtilisateurController extends Controller
 {
@@ -34,6 +35,14 @@ class UtilisateurController extends Controller
 
         public function getProjects(){
             return $this->utiliService->getProjects();
+        }
+        public function updateProfile(Request $request){
+            $data = $request->only([
+                'username',
+                'email',
+                'password'
+              ]);
+              return $this->utiliService->updateProfile($data);
         }
 
 
