@@ -56,6 +56,20 @@ class AdminRepository implements AdminRepositoryInterface
         ]);
     }
 
+    public function updateProfile(array $data){
+        $current_user=Auth::guard('api')->user()->id;
+        $user_con = User::findOrFail($current_user);
+        $user_con->username = $data["username"];
+        $user_con->email = $data["email"];
+        $user_con->password = $data["password"];
+        $user_con->save();
+        return response()->json([
+            'user_updated'=>'succefuly',
+            'user_id' => $user_con,
+            'data' => $data,
+        ]);
+    }
+
   
 
 

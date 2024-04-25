@@ -19,5 +19,9 @@ class AdminService implements AdminServiceInterface
     public function getProjects(){
         return $this->adminrepository->getProjects();
     }
+
+    public function updateProfile(array $data){
+        return $this->adminrepository->updateProfile($data);
+    }
     
 }

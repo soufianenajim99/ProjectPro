@@ -26,5 +26,14 @@ class AdminController extends Controller
     public function getProjects(){
         return $this->adminservice->getProjects();
         }
+    
+        public function updateProfile(Request $request){
+            $data = $request->only([
+                'username',
+                'email',
+                'password'
+              ]);
+              return $this->adminservice->updateProfile($data);
+        }
 
 }

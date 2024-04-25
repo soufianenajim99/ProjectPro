@@ -1,117 +1,86 @@
-import { Input } from "@material-tailwind/react";
+import axiosClient from "@/axiosClient";
+import { Button, Input } from "@material-tailwind/react";
+import { Chip } from "@nextui-org/react";
 import React from "react";
+import { useForm } from "react-hook-form";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const AdminProfile = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    const payload = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    };
+    axiosClient
+      .post("/admin/updateProfile", payload)
+      .then(setOpen(true))
+      .catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
+  };
   return (
     <div>
+      <div className="flex justify-between my-3 mx-3">
+        <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700 my-auto">
+          Profile
+        </span>
+        <Chip color="success" variant="shadow">
+          Update
+        </Chip>
+      </div>
+      <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            User Profile Updated Succefully!
+          </Alert>
+        </Snackbar>
+      </div>
       <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-        <form action="#" className="space-y-4">
-          <div>
-            <Input size="md" label="Input Medium" />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-2 grid-rows-2 gap-4">
+            <Input size="md" label="Username" {...register("username")} />
+            <Input size="md" label="Email" {...register("email")} />
+            <Input
+              size="md"
+              label="New Password"
+              {...register("password")}
+              type="password"
+            />
+            <Input size="md" label="Confirme New Password" type="password" />
           </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="sr-only" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                placeholder="Email address"
-                type="email"
-                id="email"
-              />
-            </div>
-
-            <div>
-              <label className="sr-only" htmlFor="phone">
-                Phone
-              </label>
-              <input
-                className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                placeholder="Phone Number"
-                type="tel"
-                id="phone"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
-            <div>
-              <label
-                htmlFor="Option1"
-                className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                tabIndex="0"
-              >
-                <input
-                  className="sr-only"
-                  id="Option1"
-                  type="radio"
-                  tabIndex="-1"
-                  name="option"
-                />
-
-                <span className="text-sm"> Option 1 </span>
-              </label>
-            </div>
-
-            <div>
-              <label
-                htmlFor="Option2"
-                className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                tabIndex="0"
-              >
-                <input
-                  className="sr-only"
-                  id="Option2"
-                  type="radio"
-                  tabIndex="-1"
-                  name="option"
-                />
-
-                <span className="text-sm"> Option 2 </span>
-              </label>
-            </div>
-
-            <div>
-              <label
-                htmlFor="Option3"
-                className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                tabIndex="0"
-              >
-                <input
-                  className="sr-only"
-                  id="Option3"
-                  type="radio"
-                  tabIndex="-1"
-                  name="option"
-                />
-
-                <span className="text-sm"> Option 3 </span>
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <label className="sr-only" htmlFor="message">
-              Message
-            </label>
-
-            <textarea
-              className="w-full rounded-lg border-gray-200 p-3 text-sm"
-              placeholder="Message"
-              rows="8"
-              id="message"
-            ></textarea>
-          </div>
-
-          <div className="mt-4">
-            <button
-              type="submit"
-              className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-            >
-              Send Enquiry
-            </button>
+          <div className=" flex items-center justify-center">
+            <Button ripple={true} className=" w-3/12" type="submit">
+              Update
+            </Button>
           </div>
         </form>
       </div>

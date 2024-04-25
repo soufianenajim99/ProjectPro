@@ -3,8 +3,23 @@ import { Button, Input } from "@material-tailwind/react";
 import { Chip } from "@nextui-org/react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const UserProfile = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const {
     register,
     handleSubmit,
@@ -19,17 +34,13 @@ const UserProfile = () => {
     };
     axiosClient
       .post("/utilisateur/updateProfile", payload)
-      .then(({ data }) => {
-        console.log(data);
-      })
+      .then(setOpen(true))
       .catch((err) => {
         const response = err.response;
         if (response && response.status === 422) {
           console.log(response.data.errors);
         }
       });
-
-    // console.log(data);
   };
   return (
     <div>
@@ -40,6 +51,18 @@ const UserProfile = () => {
         <Chip color="success" variant="shadow">
           Update
         </Chip>
+      </div>
+      <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            User Profile Updated Succefully!
+          </Alert>
+        </Snackbar>
       </div>
       <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

@@ -28,6 +28,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('admin/register', 'register');
     Route::get('admin/getusers', 'getUsers');
     Route::get('admin/getprojects', 'getProjects');
+    Route::post('admin/updateProfile', 'updateProfile');
 });
 
 //utilisateur
