@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axiosClient from "@/axiosClient";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -24,7 +25,7 @@ const Demo = styled("div")(({ theme }) => ({
 const UserProjectsList = () => {
   const [showProjects, setShowProjects] = useState();
   const [dense, setDense] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [secondary, setSecondary] = useState(true);
 
   //get projects
@@ -35,13 +36,16 @@ const UserProjectsList = () => {
       setLoading(true);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
+
   useEffect(() => {
     getProjects();
   }, []);
-
-  console.log(showProjects);
+  let project_linked = showProjects?.projects_list;
+  console.log(project_linked);
   return (
     <div>
       {" "}
@@ -50,25 +54,34 @@ const UserProjectsList = () => {
           Projects List
         </Typography>
         <Demo>
-          <List dense={dense} className=" flex flex-col gap-4">
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete">
-                  <DeleteIcon />
-                </IconButton>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary="Single-line item"
-                secondary={secondary ? "Secondary text" : null}
-              />
-            </ListItem>
-          </List>
+          {loading ? (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          ) : (
+            <List dense={dense} className=" flex flex-col gap-4">
+              {project_linked.map((project) => (
+                <ListItem
+                  key={project.id}
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={project.name}
+                    secondary={secondary ? project.description : null}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          )}
         </Demo>
       </Grid>
     </div>

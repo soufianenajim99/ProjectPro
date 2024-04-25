@@ -50,14 +50,7 @@ export default function UserProjectTable({ projects }) {
           description: "loading",
           users: [{ username: "loko" }, { username: "loko2" }],
         },
-        {
-          id: 2,
-          name: "loading",
-          description: "loading",
-          users: [{ username: "loko" }, { username: "loko2" }],
-        },
       ];
-  console.log(project_linked[0].users);
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -134,7 +127,6 @@ export default function UserProjectTable({ projects }) {
           </div>
         );
       case "users":
-        // Display each user's username and email in separate lines
         return (
           <div className="flex flex-col items-center">
             <div>
