@@ -14,6 +14,7 @@ class ProjectUtilisateur extends Pivot
         'project_id',
         'utilisateur_id',
         'role',
+        'validated_at'
     ];
 
     protected $attributes = [

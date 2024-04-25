@@ -72,10 +72,11 @@ class AuthController extends Controller
     }
     public function users()
     {
+        
         $users = Utilisateur::with('user')->get();
         return response()->json([
             'status' => 'success',
-            'user' => $users,
+            'user' => $users->except([Auth::guard('api')->user()->utilisateur()->first()->id]),
         ]);
     }
 
