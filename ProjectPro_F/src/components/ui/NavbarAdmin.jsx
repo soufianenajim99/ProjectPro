@@ -11,8 +11,18 @@ import {
 } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon.jsx";
 import { Link } from "react-router-dom";
+import axiosClient from "@/axiosClient.js";
+import { useStateContext } from "@/contexts/contextproviderg.jsx";
 
 const NavbarAdmin = () => {
+  const { user, token, setUser, setToken } = useStateContext();
+  const onLogout = (ev) => {
+    ev.preventDefault();
+    axiosClient.get("/logout").then(({}) => {
+      setUser(null);
+      setToken(null);
+    });
+  };
   return (
     <Navbar isBordered maxWidth="full" className=" ">
       <NavbarContent justify="start">
@@ -63,21 +73,16 @@ const NavbarAdmin = () => {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src={`http://127.0.0.1:8000/storage/images/profile/${user.picture}`}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{`${user.email}`}</p>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="system">System</DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+
+            <DropdownItem key="logout" color="danger" onClick={onLogout}>
               Log Out
             </DropdownItem>
           </DropdownMenu>

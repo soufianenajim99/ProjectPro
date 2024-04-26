@@ -39,6 +39,7 @@ Route::controller(UtilisateurController::class)->group(function () {
     Route::get('utilisateur/accepter_invi/{id}', 'accepter_invi');
     Route::get('utilisateur/getProjects', 'getProjects');
     Route::post('utilisateur/updateProfile', 'updateProfile');
+    Route::get('utilisateur/inboxCount', 'inboxCount');
 });
 
 
@@ -47,17 +48,8 @@ Route::controller(UtilisateurController::class)->group(function () {
 Route::controller(ProjectController::class)->group(function () {
     Route::post('project/create', 'createproject');
     Route::post('project/addMembers', 'addingMembers');
+    Route::delete('project/deleteproject/{id}', 'deleteproject');
 });
-
-
-
-
-
-
-
-
-
-
 
 //authenteififcation
 

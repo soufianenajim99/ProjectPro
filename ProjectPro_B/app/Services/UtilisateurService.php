@@ -32,5 +32,9 @@ class UtilisateurService implements UtilisateurServiceInterface
     public function updateProfile(array $data){
         return $this->utilisateurrepository->updateProfile($data);
     }
+    public function inboxCount(){
+        return $this->utilisateurrepository->inboxCount();
+    }
+
 
 }

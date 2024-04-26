@@ -9,6 +9,7 @@ interface ProjectRepositoryInterface
 {
 
     public function storeproject(array $data);
+    public function deleteproject(string $id);
   
    
 }

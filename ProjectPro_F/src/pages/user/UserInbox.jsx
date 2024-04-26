@@ -7,6 +7,7 @@ import { Card, CardBody, Typography } from "@material-tailwind/react";
 import axiosClient from "@/axiosClient";
 import InboxCard from "@/components/ui/InboxCard";
 import { Password } from "@mui/icons-material";
+import { Box, LinearProgress } from "@mui/material";
 
 const UserInbox = () => {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -22,18 +23,6 @@ const UserInbox = () => {
   const [showNoti, setshowNoti] = useState(null);
 
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   async function getInbox() {
     setLoading(true);
@@ -67,10 +56,9 @@ const UserInbox = () => {
       <div>
         <div className="">
           {loading ? (
-            <Spinner
-              className="h-16 w-16 text-gray-900/50 justify-self-end"
-              color="green"
-            />
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
           ) : (
             showNoti &&
             showNoti.map((item, index) => (

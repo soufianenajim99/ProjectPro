@@ -63,6 +63,7 @@ const UserProjectsList = () => {
               {project_linked.map((project) => (
                 <ListItem
                   key={project.id}
+                  className=" mt-2"
                   secondaryAction={
                     <IconButton edge="end" aria-label="delete">
                       <DeleteIcon />

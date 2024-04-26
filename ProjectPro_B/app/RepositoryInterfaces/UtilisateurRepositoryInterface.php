@@ -15,6 +15,7 @@ interface UtilisateurRepositoryInterface
     
     public function getProjects();
     public function updateProfile(array $data);
+    public function inboxCount();
 
 
   

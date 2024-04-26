@@ -45,5 +45,9 @@ class ProjectController extends Controller
 
     }
 
+    public function deleteproject(string $id){
+      return $this->projectService->deleteproject($id);
+    }
+
 
 }

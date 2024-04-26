@@ -45,6 +45,10 @@ class UtilisateurController extends Controller
               return $this->utiliService->updateProfile($data);
         }
 
+        public function inboxCount(){
+           return $this->utiliService->inboxCount();
+        }
+
 
 }
         

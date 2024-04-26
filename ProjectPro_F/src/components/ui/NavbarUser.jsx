@@ -12,9 +12,18 @@ import {
 import { Link } from "react-router-dom";
 import { SearchIcon } from "./SearchIcon.jsx";
 import { useStateContext } from "@/contexts/contextproviderg.jsx";
+import axiosClient from "@/axiosClient.js";
 
 const NavbarUser = () => {
-  const { user } = useStateContext();
+  const { user, token, setUser, setToken } = useStateContext();
+  const onLogout = (ev) => {
+    ev.preventDefault();
+    axiosClient.get("/logout").then(({}) => {
+      setUser(null);
+      setToken(null);
+    });
+  };
+
   // console.log(user);
   return (
     <Navbar isBordered maxWidth="full" className=" ">
@@ -58,7 +67,7 @@ const NavbarUser = () => {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{`${user.email}`}</p>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="logout" color="danger" onClick={onLogout}>
               Log Out
             </DropdownItem>
           </DropdownMenu>

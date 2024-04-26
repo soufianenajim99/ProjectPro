@@ -19,9 +19,25 @@ import { useForm } from "react-hook-form";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { Box, LinearProgress } from "@mui/material";
 
 const UserProjects = () => {
+  const [opener, setOpener] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Function to handle refresh
+  const handleRefresh = () => {
+    setRefreshKey((oldKey) => oldKey + 1);
+    // setOpener(true);
+  };
+  const handleDelete = () => {
+    setRefreshKey((oldKey) => oldKey + 1);
+    setOpener(true);
+  };
+
+  console.log(refreshKey);
 
   const handleClick = () => {
     setOpen(true);
@@ -33,6 +49,7 @@ const UserProjects = () => {
     }
 
     setOpen(false);
+    setOpener(false);
   };
 
   const { register, handleSubmit } = useForm();
@@ -45,41 +62,45 @@ const UserProjects = () => {
       name: data.name,
       description: data.description,
     };
-    axiosClient
-      .post("/project/create", payload)
-      .then((response) => {
-        console.log(teamNumbers);
+    try {
+      axiosClient
+        .post("/project/create", payload)
+        .then((response) => {
+          console.log(teamNumbers);
 
-        teamNumbers.map((userId) => {
-          const payload = {
-            utilisateur_id: userId,
-            project_id: response.data.data.original.project_id,
-            role: "developmentteam",
-          };
+          teamNumbers.map((userId) => {
+            const payload = {
+              utilisateur_id: userId,
+              project_id: response.data.data.original.project_id,
+              role: "developmentteam",
+            };
 
-          axiosClient
-            .post("/project/addMembers", payload)
-            .then((response) => ({
-              userId: userId,
-              status: "Success",
-              data: response.data,
-            }))
-            .then(handleClick())
-            .then(onOpenChange())
-            .catch((error) => ({
-              userId: userId,
-              status: "Failed",
-              error: error.response ? error.response.data : "Unknown error",
-            }));
+            axiosClient
+              .post("/project/addMembers", payload)
+              .then((response) => ({
+                userId: userId,
+                status: "Success",
+                data: response.data,
+              }))
+              .then(handleClick())
+              .then(onOpenChange())
+              .catch((error) => ({
+                userId: userId,
+                status: "Failed",
+                error: error.response ? error.response.data : "Unknown error",
+              }));
+          });
+          setLoading(!loading);
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            console.log(response.data.errors);
+          }
         });
-        setLoading(!loading);
-      })
-      .catch((err) => {
-        const response = err.response;
-        if (response && response.status === 422) {
-          console.log(response.data.errors);
-        }
-      });
+    } finally {
+      handleRefresh();
+    }
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -110,7 +131,7 @@ const UserProjects = () => {
   useEffect(() => {
     getPosts();
     getProjects();
-  }, []);
+  }, [refreshKey]);
   let useers;
   showUser.user
     ? (useers = showUser.user)
@@ -118,11 +139,19 @@ const UserProjects = () => {
         name: "loading...",
       });
 
-  // console.log(showProjects);
-
   return (
     <div>
       <div>
+        <Snackbar open={opener} autoHideDuration={3000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Vous avez supprimer ce projet
+          </Alert>
+        </Snackbar>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
@@ -130,7 +159,7 @@ const UserProjects = () => {
             variant="filled"
             sx={{ width: "100%" }}
           >
-            Project Created Successfuly
+            Vous avez ajouter le projet avec success
           </Alert>
         </Snackbar>
       </div>
@@ -274,7 +303,16 @@ const UserProjects = () => {
       </Modal>
 
       <div className="m-3">
-        <UserProjectTable projects={showProjects} />
+        {showProjects ? (
+          <UserProjectTable
+            projects={showProjects}
+            onActionComplete={handleDelete}
+          />
+        ) : (
+          <Box sx={{ width: "100%" }}>
+            <LinearProgress />
+          </Box>
+        )}
       </div>
     </div>
   );

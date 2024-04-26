@@ -31,6 +31,14 @@ class ProjectRepository implements ProjectRepositoryInterface
             'project_id' => $project->id,
         ]);
     }
+    public function deleteproject(string $id){
+        $project = Project::findOrFail($id);
+        $project->delete();
+        
+        return response()->json([
+            'project_deleted' => $project,
+        ]);
+    }
 
    
 }

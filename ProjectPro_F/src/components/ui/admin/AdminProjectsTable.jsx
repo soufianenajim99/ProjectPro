@@ -16,7 +16,7 @@ import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 
 const columns = [
-  { name: "NAME", uid: "name" },
+  { name: "PROJECT NAME", uid: "name" },
   { name: "DESCRIPTION", uid: "description" },
   { name: "STATUS", uid: "status" },
   { name: "ACTIONS", uid: "actions" },

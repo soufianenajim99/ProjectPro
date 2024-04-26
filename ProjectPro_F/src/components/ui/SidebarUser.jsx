@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Typography,
@@ -26,6 +26,21 @@ import { Link } from "react-router-dom";
 
 export function SidebarUser() {
   const { user, token, setUser, setToken } = useStateContext();
+  const [loading, setLoading] = useState(true);
+  const [showCount, setshowCount] = useState("0");
+
+  async function countInbox() {
+    try {
+      const response = await axiosClient.get("/utilisateur/inboxCount");
+      // .then(console.log(response));
+      setshowCount(response.data);
+      setLoading(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const onLogout = (ev) => {
     ev.preventDefault();
@@ -40,8 +55,14 @@ export function SidebarUser() {
     setOpen(open === value ? 0 : value);
   };
 
+  useEffect(() => {
+    countInbox();
+  }, []);
+
+  console.log(showCount.Inbox_count);
+
   return (
-    <Card className="w-full max-w-[20rem] p-4 shadow-blue-gray-900/5 sticky top-0 h-screen">
+    <Card className="w-full max-w-[16rem] w- p-4 shadow-blue-gray-900/5 sticky top-0 h-screen">
       <List>
         <Accordion
           open={open === 1}
@@ -84,12 +105,14 @@ export function SidebarUser() {
                 </ListItemPrefix>
                 Tasks
               </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Projects
-              </ListItem>
+              <Link to="/user/dashboard/projects_list">
+                <ListItem>
+                  <ListItemPrefix>
+                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  Projects
+                </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>
@@ -147,7 +170,7 @@ export function SidebarUser() {
             Inbox
             <ListItemSuffix>
               <Chip
-                value="14"
+                value={showCount.Inbox_count}
                 size="sm"
                 variant="ghost"
                 color="blue-gray"

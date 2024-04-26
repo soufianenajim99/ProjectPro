@@ -142,6 +142,14 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         ]);
     }
 
+    public function inboxCount(){
+        $count = ProjectUtilisateur::where('utilisateur_id',Auth::guard('api')->user()->utilisateur()->first()->id)->whereNull('validated_at')->count();
+        return response()->json([
+            'Inbox_count'=>$count,
+        ]);
+       
+    }
+
 
 
 

@@ -24,6 +24,8 @@ import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
 import { columns, statusOptions } from "./data";
 import { capitalize } from "./utils";
+import axiosClient from "@/axiosClient";
+import { useForm } from "react-hook-form";
 
 const statusColorMap = {
   active: "success",
@@ -39,7 +41,27 @@ const INITIAL_VISIBLE_COLUMNS = [
   "id",
 ];
 
-export default function UserProjectTable({ projects }) {
+export default function UserProjectTable({ projects, onActionComplete }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const handledelete = (id) => {
+    try {
+      axiosClient.delete(`/project/deleteproject/${id}`).catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(onActionComplete, 0);
+    }
+  };
   // console.log(projects);
   let project_linked = projects
     ? projects.projects_list
@@ -173,7 +195,9 @@ export default function UserProjectTable({ projects }) {
               <DropdownMenu>
                 <DropdownItem>View</DropdownItem>
                 <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem onClick={() => handledelete(user.id)}>
+                  Delete
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -267,18 +291,11 @@ export default function UserProjectTable({ projects }) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<PlusIcon />}
-              size="sm"
-            >
-              Add New
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {project_linked.length} users
+            Total {project_linked.length} projects
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
