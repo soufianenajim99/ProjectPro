@@ -17,6 +17,8 @@ import { EyeIcon } from "./EyeIcon";
 import { columns } from "./data";
 import BlockIcon from "@mui/icons-material/Block";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { useForm } from "react-hook-form";
+import axiosClient from "@/axiosClient";
 
 const statusColorMap = {
   active: "success",
@@ -24,7 +26,42 @@ const statusColorMap = {
   vacation: "warning",
 };
 
-export default function AdminUsersTable({ useers }) {
+export default function AdminUsersTable({ useers, onActionComplete }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const handleBlock = (id) => {
+    try {
+      axiosClient.patch(`/admin/desactivateUser/${id}`).catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(onActionComplete, 0);
+    }
+  };
+  const handleRemoveBlock = (id) => {
+    try {
+      axiosClient.patch(`/admin/activateUser/${id}`).catch((err) => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          console.log(response.data.errors);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(onActionComplete, 0);
+    }
+  };
+
   const users_linked = React.useMemo(() => {
     return useers && useers.users
       ? useers.users
@@ -87,13 +124,13 @@ export default function AdminUsersTable({ useers }) {
         return user.deleted_at ? (
           <Tooltip color="success" content="Remove Block">
             <span className="text-lg text-success cursor-pointer active:opacity-50">
-              <TaskAltIcon />
+              <TaskAltIcon onClick={() => handleRemoveBlock(user.id)} />
             </span>
           </Tooltip>
         ) : (
           <Tooltip color="danger" content="Block User">
             <span className="text-lg text-danger cursor-pointer active:opacity-50">
-              <BlockIcon />
+              <BlockIcon onClick={() => handleBlock(user.id)} />
             </span>
           </Tooltip>
         );
@@ -103,44 +140,46 @@ export default function AdminUsersTable({ useers }) {
   }, []);
 
   return (
-    <Table
-      aria-label="Example table with custom cells"
-      bottomContent={
-        <div className="flex w-full justify-center">
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            color="secondary"
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
-          />
-        </div>
-      }
-      classNames={{
-        wrapper: "min-h-[222px]",
-      }}
-    >
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={items}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div>
+      <Table
+        aria-label="Example table with custom cells"
+        bottomContent={
+          <div className="flex w-full justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="secondary"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        }
+        classNames={{
+          wrapper: "min-h-[222px]",
+        }}
+      >
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={items}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

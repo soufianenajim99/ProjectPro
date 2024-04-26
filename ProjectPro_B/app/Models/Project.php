@@ -19,7 +19,7 @@ class Project extends Model
     ];
 
     protected $attributes = [
-        'status' => 'active',
+        'status' => 'paused',
     ];
 
 

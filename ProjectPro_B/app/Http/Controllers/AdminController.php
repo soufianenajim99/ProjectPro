@@ -36,4 +36,12 @@ class AdminController extends Controller
               return $this->adminservice->updateProfile($data);
         }
 
+    public function desactivateUser(string $id){
+        return $this->adminservice->desactivateUser($id);
+    }
+
+    public function activateUser(string $id){
+        return $this->adminservice->activateUser($id);
+    }
+
 }

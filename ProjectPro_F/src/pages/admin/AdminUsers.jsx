@@ -5,20 +5,29 @@ import { Chip } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 const AdminUsers = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleUser = () => {
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
+
   const [showUsers, setShowUsers] = useState();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+
+  console.log(refreshKey);
+
   async function getUsers() {
     try {
       const response = await axiosClient.get("/admin/getusers");
       setShowUsers(response.data);
-      setLoading(true);
+      // setLoading(true);
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [refreshKey]);
   console.log(showUsers);
   return (
     <div>
@@ -32,7 +41,7 @@ const AdminUsers = () => {
       </div>
       <div className="">
         {showUsers ? (
-          <AdminUsersTable useers={showUsers} />
+          <AdminUsersTable useers={showUsers} onActionComplete={handleUser} />
         ) : (
           <Box sx={{ width: "100%" }}>
             <LinearProgress />

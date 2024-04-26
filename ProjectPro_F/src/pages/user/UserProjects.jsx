@@ -15,7 +15,6 @@ import { Select, SelectItem, Avatar } from "@nextui-org/react";
 
 import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
-// import { Link, redirect } from "react-router-dom";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -30,7 +29,6 @@ const UserProjects = () => {
   // Function to handle refresh
   const handleRefresh = () => {
     setRefreshKey((oldKey) => oldKey + 1);
-    // setOpener(true);
   };
   const handleDelete = () => {
     setRefreshKey((oldKey) => oldKey + 1);

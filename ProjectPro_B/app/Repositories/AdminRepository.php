@@ -70,6 +70,22 @@ class AdminRepository implements AdminRepositoryInterface
         ]);
     }
 
+
+    public function desactivateUser(string $id){
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json([
+            'user_deleted'=>$user,
+        ]);
+       }
+       public function activateUser(string $id){
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return response()->json([
+            'user_restored'=>$user,
+        ]);
+       }
+
   
 
 

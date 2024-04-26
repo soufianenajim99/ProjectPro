@@ -147,9 +147,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         return response()->json([
             'Inbox_count'=>$count,
         ]);
-       
     }
-
 
 
 

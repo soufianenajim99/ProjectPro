@@ -29,6 +29,9 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('admin/getusers', 'getUsers');
     Route::get('admin/getprojects', 'getProjects');
     Route::post('admin/updateProfile', 'updateProfile');
+    Route::patch('admin/desactivateUser/{id}', 'desactivateUser');
+    Route::patch('admin/activateUser/{id}', 'activateUser');
+   
 });
 
 //utilisateur
@@ -51,12 +54,12 @@ Route::controller(ProjectController::class)->group(function () {
     Route::delete('project/deleteproject/{id}', 'deleteproject');
 });
 
+
 //authenteififcation
 
-// Route::post('register',[AuthController::class,'register']);
+
 Route::post('login', [AuthController::class,'login']);
 Route::post('refresh', [AuthController::class,'refresh']);
 Route::get('authuser', [AuthController::class,'authUser']);
-// Route::patch('update', [AuthController::class,'update']);
 Route::get('logout', [AuthController::class,'logout']);
 Route::get('users', [AuthController::class,'users']);
