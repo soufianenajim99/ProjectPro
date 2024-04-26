@@ -37,6 +37,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "name",
   "description",
   "users",
+  "status",
   "actions",
   "id",
 ];
@@ -70,6 +71,7 @@ export default function UserProjectTable({ projects, onActionComplete }) {
           id: 1,
           name: "loading",
           description: "loading",
+          status: "loading",
           users: [{ username: "loko" }, { username: "loko2" }],
         },
       ];
@@ -176,7 +178,7 @@ export default function UserProjectTable({ projects, onActionComplete }) {
         return (
           <Chip
             className="capitalize border-none gap-1 text-default-600"
-            color={statusColorMap[user.status]}
+            color="danger"
             size="sm"
             variant="dot"
           >
@@ -396,7 +398,7 @@ export default function UserProjectTable({ projects, onActionComplete }) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"No Projects found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

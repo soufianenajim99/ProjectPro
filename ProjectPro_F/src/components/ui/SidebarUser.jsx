@@ -59,7 +59,7 @@ export function SidebarUser() {
     countInbox();
   }, []);
 
-  console.log(showCount.Inbox_count);
+  // console.log(showCount.Inbox_count);
 
   return (
     <Card className="w-full max-w-[16rem] w- p-4 shadow-blue-gray-900/5 sticky top-0 h-screen">

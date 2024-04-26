@@ -102,10 +102,12 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
     ->whereIn('p.id', function($query) {
         $query->select('project_id')
               ->from('project_utilisateur')
-              ->where('utilisateur_id', Auth::guard('api')->user()->utilisateur()->first()->id);
+              ->where('utilisateur_id', Auth::guard('api')->user()->utilisateur()->first()->id)
+              ->where('role', 'scrum master');
+              ;
     })
     ->orderBy('p.name')
-    ->get(['p.id as project_id', 'p.name as project_name', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
+    ->get(['p.id as project_id', 'p.name as project_name','p.status as project_status', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
 
 
     $projects = [];
@@ -114,6 +116,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         $projects[$data->project_id]['name'] = $data->project_name;
         $projects[$data->project_id]['description'] = $data->project_description;
         $projects[$data->project_id]['id'] = $data->project_id;
+        $projects[$data->project_id]['status'] = $data->project_status;
         $projects[$data->project_id]['users'][] = [
             'username' => $data->username,
             'email' => $data->email,

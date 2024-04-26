@@ -19,7 +19,6 @@ import { useForm } from "react-hook-form";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { Box, LinearProgress } from "@mui/material";
-
 const UserProjects = () => {
   const [opener, setOpener] = useState(false);
   const [open, setOpen] = useState(false);
@@ -35,7 +34,7 @@ const UserProjects = () => {
     setOpener(true);
   };
 
-  console.log(refreshKey);
+  // console.log(refreshKey);
 
   const handleClick = () => {
     setOpen(true);
@@ -136,6 +135,8 @@ const UserProjects = () => {
     : (useers = {
         name: "loading...",
       });
+
+  console.log(showProjects);
 
   return (
     <div>
