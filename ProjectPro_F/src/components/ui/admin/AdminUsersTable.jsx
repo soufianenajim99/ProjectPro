@@ -15,6 +15,8 @@ import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { columns } from "./data";
+import BlockIcon from "@mui/icons-material/Block";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 const statusColorMap = {
   active: "success",
@@ -70,37 +72,30 @@ export default function AdminUsersTable({ useers }) {
             {user.email}
           </User>
         );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.deleted_at]}
-            size=""
-            variant="flat"
-          >
-            {cellValue}
+      case "deleted_at":
+        return user.deleted_at ? (
+          <Chip className="capitalize" color="danger" size="" variant="flat">
+            Desactivated
+          </Chip>
+        ) : (
+          <Chip className="capitalize" color="success" size="" variant="flat">
+            Activated
           </Chip>
         );
 
       case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EyeIcon />
-              </span>
-            </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EditIcon />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <DeleteIcon />
-              </span>
-            </Tooltip>
-          </div>
+        return user.deleted_at ? (
+          <Tooltip color="success" content="Remove Block">
+            <span className="text-lg text-success cursor-pointer active:opacity-50">
+              <TaskAltIcon />
+            </span>
+          </Tooltip>
+        ) : (
+          <Tooltip color="danger" content="Block User">
+            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+              <BlockIcon />
+            </span>
+          </Tooltip>
         );
       default:
         return cellValue;
