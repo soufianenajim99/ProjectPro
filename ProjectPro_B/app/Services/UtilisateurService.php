@@ -29,12 +29,18 @@ class UtilisateurService implements UtilisateurServiceInterface
         return $this->utilisateurrepository->getProjects();
     }
 
+    public function getMyProjects(){
+        return $this->utilisateurrepository->getMyProjects();
+    }
+
     public function updateProfile(array $data){
         return $this->utilisateurrepository->updateProfile($data);
     }
     public function inboxCount(){
         return $this->utilisateurrepository->inboxCount();
     }
+
+
 
 
 }

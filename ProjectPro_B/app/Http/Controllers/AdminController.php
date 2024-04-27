@@ -44,4 +44,12 @@ class AdminController extends Controller
         return $this->adminservice->activateUser($id);
     }
 
+    public function removeProject(string $id){
+        return $this->adminservice->removeProject($id);
+    }
+
+    public function approveProject(string $id){
+        return $this->adminservice->approveProject($id);
+    }
+
 }

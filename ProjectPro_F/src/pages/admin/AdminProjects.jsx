@@ -5,6 +5,11 @@ import { Chip } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 const AdminProjects = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleProject = () => {
+    setRefreshKey((oldKey) => oldKey + 1);
+  };
   const [showProjects, setShowProjects] = useState();
   const [loading, setLoading] = useState(false);
   async function getProjects() {
@@ -18,7 +23,7 @@ const AdminProjects = () => {
   }
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [refreshKey]);
   return (
     <div>
       <div className="flex justify-between my-3 mx-3">
@@ -31,7 +36,10 @@ const AdminProjects = () => {
       </div>
       <div className="">
         {showProjects ? (
-          <AdminProjectsTable projects={showProjects} />
+          <AdminProjectsTable
+            projects={showProjects}
+            onActionComplete={handleProject}
+          />
         ) : (
           <Box sx={{ width: "100%" }}>
             <LinearProgress />

@@ -32,4 +32,11 @@ class AdminService implements AdminServiceInterface
         return $this->adminrepository->activateUser($id);
     }
 
+    public function removeProject(string $id){
+        return $this->adminrepository->removeProject($id);
+    }
+    public function approveProject(string $id){
+        return $this->adminrepository->approveProject($id);
+    }
+
 }

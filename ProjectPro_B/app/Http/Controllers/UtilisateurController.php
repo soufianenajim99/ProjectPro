@@ -36,6 +36,9 @@ class UtilisateurController extends Controller
         public function getProjects(){
             return $this->utiliService->getProjects();
         }
+        public function getMyProjects(){
+            return $this->utiliService->getMyProjects();
+        }
         public function updateProfile(Request $request){
             $data = $request->only([
                 'username',

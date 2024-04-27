@@ -117,7 +117,7 @@ const UserProjects = () => {
   }
   async function getProjects() {
     try {
-      const response = await axiosClient.get("/utilisateur/getProjects");
+      const response = await axiosClient.get("/utilisateur/getMyProjects");
       setShowProjects(response.data);
       setLoading(true);
     } catch (error) {

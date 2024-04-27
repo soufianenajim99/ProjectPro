@@ -15,5 +15,8 @@ interface AdminRepositoryInterface
 
     public function activateUser(string $id);
 
+    public function removeProject(string $id);
+    public function approveProject(string $id);
+
 
 }

@@ -85,6 +85,21 @@ class AdminRepository implements AdminRepositoryInterface
             'user_restored'=>$user,
         ]);
        }
+       public function approveProject(string $id){
+        $project = Project::findOrFail($id);
+        $project->status = "active";
+        $project->save();
+        return response()->json([
+            'project_approved'=>$project,
+        ]);
+       }
+       public function removeProject(string $id){
+        $project = Project::findOrFail($id);
+        $project->delete();
+        return response()->json([
+            'project_removed'=>$project,
+        ]);
+       }
 
   
 

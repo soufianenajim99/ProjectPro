@@ -28,9 +28,9 @@ import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
 
 const statusColorMap = {
-  active: "success",
+  active: "warning",
   paused: "danger",
-  vacation: "warning",
+  finished: "success",
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
@@ -178,7 +178,8 @@ export default function UserProjectTable({ projects, onActionComplete }) {
         return (
           <Chip
             className="capitalize border-none gap-1 text-default-600"
-            color="danger"
+            color={statusColorMap[user.status]}
+            c
             size="sm"
             variant="dot"
           >

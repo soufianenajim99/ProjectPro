@@ -94,7 +94,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
 
     }
 
-    public function getProjects(){
+    public function getMyProjects(){
     $projectData = DB::table('projects as p')
     ->join('project_utilisateur as pu', 'p.id', '=', 'pu.project_id')
     ->join('utilisateurs as ut', 'pu.utilisateur_id', '=', 'ut.id')
@@ -130,6 +130,44 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         'projects_list' => $projects,
     ]);
     }
+
+    public function getProjects(){
+        $projectData = DB::table('projects as p')
+        ->join('project_utilisateur as pu', 'p.id', '=', 'pu.project_id')
+        ->join('utilisateurs as ut', 'pu.utilisateur_id', '=', 'ut.id')
+        ->join('users as u', 'ut.user_id', '=', 'u.id')
+        ->whereIn('p.id', function($query) {
+            $query->select('project_id')
+                  ->from('project_utilisateur')
+                  ->where('utilisateur_id', Auth::guard('api')->user()->utilisateur()->first()->id)
+                  ;
+        })
+        ->orderBy('p.name')
+        ->get(['p.id as project_id', 'p.name as project_name','p.status as project_status', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
+    
+    
+        $projects = [];
+    
+        foreach ($projectData as $data) {
+            $projects[$data->project_id]['name'] = $data->project_name;
+            $projects[$data->project_id]['description'] = $data->project_description;
+            $projects[$data->project_id]['id'] = $data->project_id;
+            $projects[$data->project_id]['status'] = $data->project_status;
+            $projects[$data->project_id]['users'][] = [
+                'username' => $data->username,
+                'email' => $data->email,
+                'picture' => $data->picture,
+            ];
+        }
+        
+        $projects = array_values($projects);
+        
+        return response()->json([
+            'projects_list' => $projects,
+        ]);
+        }
+
+
 
     public function updateProfile(array $data){
         $current_user=Auth::guard('api')->user()->id;
