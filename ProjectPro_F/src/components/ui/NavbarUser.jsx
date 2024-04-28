@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { SearchIcon } from "./SearchIcon.jsx";
 import { useStateContext } from "@/contexts/contextproviderg.jsx";
 import axiosClient from "@/axiosClient.js";
+import { ListItem } from "@material-tailwind/react";
 
 const NavbarUser = () => {
   const { user, token, setUser, setToken } = useStateContext();
@@ -67,6 +68,13 @@ const NavbarUser = () => {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{`${user.email}`}</p>
             </DropdownItem>
+            {/* <Link to="/user/dashboard/profile"> */}
+            <ListItem>profile</ListItem>
+            {/* </Link> */}
+            <DropdownItem key="analytics">Analytics</DropdownItem>
+            <DropdownItem key="projects">Projects</DropdownItem>
+            <DropdownItem key="my-projects">My-Projects</DropdownItem>
+            <DropdownItem key="Inbox">Inbox</DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={onLogout}>
               Log Out
             </DropdownItem>

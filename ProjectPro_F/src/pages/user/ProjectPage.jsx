@@ -1,3 +1,4 @@
+import { KanbanTable } from "@/components/ui/user/KanbanTable";
 import React from "react";
 
 const ProjectPage = () => {
@@ -16,6 +17,7 @@ const ProjectPage = () => {
               fugit natus?
             </p>
           </header>
+          <KanbanTable />
         </div>
       </section>
     </div>
