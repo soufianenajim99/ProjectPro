@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Inventory;
+use App\Models\Productbacklog;
 use App\Models\Project;
 use App\Models\ProjectUtilisateur;
 use App\RepositoryInterfaces\ProductbacklogRepositoryInterface;
@@ -25,7 +26,16 @@ class ProjectRepository implements ProjectRepositoryInterface
             'validated_at' => Carbon::now(),
             'role' => "scrum master",
         ];
+
+        $backlogdata = [
+            'project_id'=> $project->id,
+            'description' => 'Product Backlog for '.$project->name
+        ];
+
+        Productbacklog::create($backlogdata);
         $pu = ProjectUtilisateur::create($data);
+        
+
         
         return response()->json([
             'project_id' => $project->id,
