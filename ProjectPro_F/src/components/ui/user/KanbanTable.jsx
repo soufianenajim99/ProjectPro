@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { FiPlus, FiTrash } from "react-icons/fi";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { motion } from "framer-motion";
-import { FaFire } from "react-icons/fa";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Avatar, AvatarGroup } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
+import { users } from "./data";
 
 export const KanbanTable = () => {
   return (
-    <div className="h-screen w-screen bg-neutral-900 text-neutral-50">
+    <div className="h-screen w-full bg-blue-gray-50 text-black mx-auto">
       <Board />
     </div>
   );
@@ -15,32 +20,32 @@ const Board = () => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
 
   return (
-    <div className="flex h-full w-full gap-3 overflow-scroll p-12">
+    <div className="flex h-full w-full gap-3 overflow-scroll p-12 justify-center">
       <Column
-        title="Backlog"
+        title="Project Backlog"
         column="backlog"
-        headingColor="text-neutral-500"
+        headingColor="text-black"
         cards={cards}
         setCards={setCards}
       />
       <Column
         title="TODO"
         column="todo"
-        headingColor="text-yellow-200"
+        headingColor="text-black"
         cards={cards}
         setCards={setCards}
       />
       <Column
         title="In progress"
         column="doing"
-        headingColor="text-blue-200"
+        headingColor="text-black"
         cards={cards}
         setCards={setCards}
       />
       <Column
         title="Complete"
         column="done"
-        headingColor="text-emerald-200"
+        headingColor="text-black"
         cards={cards}
         setCards={setCards}
       />
@@ -164,7 +169,7 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`h-full w-full transition-colors ${
-          active ? "bg-neutral-800/50" : "bg-neutral-800/0"
+          !active ? "  bg-blue-gray-50" : " bg-blue-gray-200"
         }`}
       >
         {filteredCards.map((c) => {
@@ -186,9 +191,17 @@ const Card = ({ title, id, column, handleDragStart }) => {
         layoutId={id}
         draggable="true"
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
+        className="cursor-grab rounded border border-gray-700 bg-blue-gray-500 p-3 my-5 active:cursor-grabbing"
       >
-        <p className="text-sm text-neutral-100">{title}</p>
+        <div className="flex flex-col">
+          <p className="text-sm text-neutral-100">{title}</p>
+          <Avatar
+            isBordered
+            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+            size="sm"
+            className=" mt-2 self-end"
+          />
+        </div>
       </motion.div>
     </>
   );
@@ -199,7 +212,7 @@ const DropIndicator = ({ beforeId, column }) => {
     <div
       data-before={beforeId || "-1"}
       data-column={column}
-      className="my-0.5 h-0.5 w-full bg-violet-400 opacity-0"
+      className="my-0.5 h-0.5 w-full bg-purple-900 opacity-0"
     />
   );
 };
@@ -235,7 +248,11 @@ const BurnBarrel = ({ setCards }) => {
           : "border-neutral-500 bg-neutral-500/20 text-neutral-500"
       }`}
     >
-      {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
+      {active ? (
+        <DeleteForeverIcon className="animate-bounce" />
+      ) : (
+        <DeleteIcon />
+      )}
     </div>
   );
 };
@@ -268,8 +285,35 @@ const AddCard = ({ column, setCards }) => {
             onChange={(e) => setText(e.target.value)}
             autoFocus
             placeholder="Add new task..."
-            className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-neutral-50 placeholder-violet-300 focus:outline-0"
+            className="w-full rounded border border-purple-100 bg-blue-gray-200 p-3 text-sm text-black placeholder-blue-gray-800 focus:outline-0"
           />
+          <Select
+            items={users}
+            label="Assigned to"
+            placeholder="Select a user"
+            labelPlacement="outside"
+            className="max-w-xs"
+          >
+            {(user) => (
+              <SelectItem key={user.id} textValue={user.name}>
+                <div className="flex gap-2 items-center">
+                  <Avatar
+                    alt={user.name}
+                    className="flex-shrink-0"
+                    size="sm"
+                    src={user.avatar}
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-small">{user.name}</span>
+                    <span className="text-tiny text-default-400">
+                      {user.email}
+                    </span>
+                  </div>
+                </div>
+              </SelectItem>
+            )}
+          </Select>
+
           <div className="mt-1.5 flex items-center justify-end gap-1.5">
             <button
               onClick={() => setAdding(false)}

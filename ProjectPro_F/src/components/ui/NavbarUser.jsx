@@ -69,12 +69,25 @@ const NavbarUser = () => {
               <p className="font-semibold">{`${user.email}`}</p>
             </DropdownItem>
             {/* <Link to="/user/dashboard/profile"> */}
-            <ListItem>profile</ListItem>
+            {/* <ListItem>profile</ListItem> */}
             {/* </Link> */}
-            <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="projects">Projects</DropdownItem>
-            <DropdownItem key="my-projects">My-Projects</DropdownItem>
-            <DropdownItem key="Inbox">Inbox</DropdownItem>
+            <DropdownItem key="analytics">
+              <Link to="/user/dashboard">Analytics</Link>
+            </DropdownItem>
+            <DropdownItem key="projects">
+              <Link to="/user/dashboard/projects_list">Projects</Link>
+            </DropdownItem>
+            <DropdownItem key="my-projects">
+              {" "}
+              <Link to="/user/dashboard/projects">My-Projects</Link>
+            </DropdownItem>
+
+            <DropdownItem key="profile">
+              <Link to="/user/dashboard/profile">Profile</Link>
+            </DropdownItem>
+            <DropdownItem key="Inbox">
+              <Link to="/user/dashboard/inbox">Inbox</Link>
+            </DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={onLogout}>
               Log Out
             </DropdownItem>

@@ -17,6 +17,10 @@ class Productbacklog extends Model
         'project_id',
     ];
 
+    protected $attributes = [
+        'status' => 'En cours',
+    ];
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

@@ -17,6 +17,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axiosClient from "@/axiosClient";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Link } from "react-router-dom";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -45,7 +46,7 @@ const UserProjectsList = () => {
     getProjects();
   }, []);
   let project_linked = showProjects?.projects_list;
-  console.log(project_linked);
+  // console.log(project_linked);
   return (
     <div>
       {" "}
@@ -61,25 +62,31 @@ const UserProjectsList = () => {
           ) : (
             <List dense={dense} className=" flex flex-col gap-4">
               {project_linked.map((project) => (
-                <ListItem
+                <Link
+                  to={`/user/projectpage/${project.id}`}
+                  state={{ project }}
                   key={project.id}
-                  className=" mt-2"
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  }
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={project.name}
-                    secondary={secondary ? project.description : null}
-                  />
-                </ListItem>
+                  <ListItem
+                    key={project.id}
+                    className=" mt-2"
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={project.name}
+                      secondary={secondary ? project.description : null}
+                    />
+                  </ListItem>
+                </Link>
               ))}
             </List>
           )}

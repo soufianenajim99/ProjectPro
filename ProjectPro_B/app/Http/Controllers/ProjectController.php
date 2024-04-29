@@ -49,5 +49,13 @@ class ProjectController extends Controller
       return $this->projectService->deleteproject($id);
     }
 
+    public function updateProject(Request $request, string $id){
+      $data = $request->only([
+        'name',
+        'description',
+      ]);
+      return $this->projectService->updateProject($data,$id);
+    }
+
 
 }

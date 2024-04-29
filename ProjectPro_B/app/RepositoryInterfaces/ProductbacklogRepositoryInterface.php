@@ -9,6 +9,6 @@ interface ProductbacklogRepositoryInterface
 {
 
   
-   
+    public function createProduct(array $data);
 
 }

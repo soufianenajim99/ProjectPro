@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductbacklogController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Http\Request;
@@ -49,12 +50,24 @@ Route::controller(UtilisateurController::class)->group(function () {
 });
 
 
+//productBacklog
+
+Route::controller(ProductbacklogController::class)->group(function () {
+    Route::post('Productbacklog/store', 'createBacklog');
+
+});
+
+
+
+
+
 
 //projects
 Route::controller(ProjectController::class)->group(function () {
     Route::post('project/create', 'createproject');
     Route::post('project/addMembers', 'addingMembers');
     Route::delete('project/deleteproject/{id}', 'deleteproject');
+    Route::patch('project/updateProject/{id}', 'updateProject');
 });
 
 

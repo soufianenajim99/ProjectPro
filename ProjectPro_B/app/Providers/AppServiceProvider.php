@@ -25,9 +25,11 @@ use App\RepositoryInterfaces\SprintTaskRepositoryInterface;
 use App\RepositoryInterfaces\TaskRepositoryInterface;
 use App\RepositoryInterfaces\UtilisateurRepositoryInterface;
 use App\Services\AdminService;
+use App\Services\ProductbacklogService;
 use App\Services\ProjectService;
 use App\Services\ProjectUtilisateurService;
 use App\Services\ServicesInterfaces\AdminServiceInterface;
+use App\Services\ServicesInterfaces\ProductbacklogServiceInterface;
 use App\Services\ServicesInterfaces\ProjectServiceInterface;
 use App\Services\ServicesInterfaces\ProjectUtilisateurServiceInterface;
 use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
@@ -57,7 +59,12 @@ class AppServiceProvider extends ServiceProvider
 
 
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
+
+
         $this->app->bind(ProductbacklogRepositoryInterface::class, ProductbacklogRepository::class);
+        $this->app->bind(ProductbacklogServiceInterface::class , function ($app) {
+            return new ProductbacklogService($app->make(ProductbacklogRepositoryInterface::class));
+        });
 
 
 

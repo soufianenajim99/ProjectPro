@@ -16,6 +16,14 @@ import {
   Pagination,
   AvatarGroup,
   Avatar,
+  useDisclosure,
+} from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react";
 
 import { PlusIcon } from "./PlusIcon";
@@ -43,6 +51,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 export default function UserProjectTable({ projects, onActionComplete }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     register,
     handleSubmit,
@@ -197,7 +206,9 @@ export default function UserProjectTable({ projects, onActionComplete }) {
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
+                <DropdownItem onClick={onOpen} aria-label="Table Columns">
+                  Edit
+                </DropdownItem>
                 <DropdownItem onClick={() => handledelete(user.id)}>
                   Delete
                 </DropdownItem>

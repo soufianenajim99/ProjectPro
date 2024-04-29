@@ -19,5 +19,8 @@ class ProjectService implements ProjectServiceInterface
     public function deleteproject(string $id){
         return $this->projectrepository->deleteproject($id);
     }
+    public function updateProject(array $data, string $id){
+        return $this->projectrepository->updateProject($data,$id);
+    }
     
 }

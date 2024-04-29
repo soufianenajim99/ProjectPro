@@ -40,5 +40,18 @@ class ProjectRepository implements ProjectRepositoryInterface
         ]);
     }
 
+
+    public function updateProject(array $data, string $id){
+        $project = Project::findOrFail($id);
+        $project->name = $data['name'];
+        $project->description = $data['description'];
+        $project->save();
+        return response()->json([
+            'project_updated'=>'succefuly',
+            'project' => $project,
+            'data' => $data,
+        ]);
+    }
+
    
 }
