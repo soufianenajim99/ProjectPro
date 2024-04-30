@@ -17,4 +17,11 @@ class TaskRepository implements TaskRepositoryInterface
         'Task_Created' => $task,
     ]);
     }
+
+    public function getTasks(){
+        $tasks = Task::all();
+        return response()->json([
+            'Tasks_list' => $tasks,
+        ]);
+    }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { motion } from "framer-motion";
@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Avatar, AvatarGroup } from "@nextui-org/react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { users } from "./data";
+import axiosClient from "@/axiosClient";
 
 export const KanbanTable = () => {
   return (
@@ -18,6 +19,18 @@ export const KanbanTable = () => {
 
 const Board = () => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
+  const fetchCards = async () => {
+    try {
+      const response = await axiosClient.get("/taskcontroller/gettasks");
+      setCards(response.data.Tasks_list);
+      console.log(response.data.Tasks_list);
+    } catch (error) {
+      console.error("Failed to fetch cards:", error);
+    }
+  };
+  useEffect(() => {
+    fetchCards();
+  }, []);
 
   return (
     <div className="flex h-full w-full gap-3 overflow-scroll p-12 justify-center">
@@ -37,14 +50,14 @@ const Board = () => {
       />
       <Column
         title="In progress"
-        column="doing"
+        column="progress"
         headingColor="text-black"
         cards={cards}
         setCards={setCards}
       />
       <Column
         title="Complete"
-        column="done"
+        column="complete"
         headingColor="text-red-900"
         cards={cards}
         setCards={setCards}
@@ -154,7 +167,7 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
     setActive(false);
   };
 
-  const filteredCards = cards.filter((c) => c.column === column);
+  const filteredCards = cards.filter((c) => c.status === column);
 
   return (
     <div className="w-56 shrink-0">
@@ -182,19 +195,19 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
   );
 };
 
-const Card = ({ title, id, column, handleDragStart }) => {
+const Card = ({ titre, id, status, handleDragStart }) => {
   return (
     <>
-      <DropIndicator beforeId={id} column={column} />
+      <DropIndicator beforeId={id} column={status} />
       <motion.div
         layout
         layoutId={id}
         draggable="true"
-        onDragStart={(e) => handleDragStart(e, { title, id, column })}
+        onDragStart={(e) => handleDragStart(e, { titre, id, status })}
         className="cursor-grab rounded border border-gray-700 bg-blue-gray-500 p-3 my-5 active:cursor-grabbing"
       >
         <div className="flex flex-col">
-          <p className="text-sm text-neutral-100">{title}</p>
+          <p className="text-sm text-neutral-100">{titre}</p>
           <Avatar
             isBordered
             src="https://i.pravatar.cc/150?u=a042581f4e29026024d"

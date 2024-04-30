@@ -61,8 +61,8 @@ Route::controller(ProductbacklogController::class)->group(function () {
 //Tasks
 Route::controller(TaskController::class)->group(function () {
     Route::post('taskcontroller/store', 'storeTask');
+    Route::get('taskcontroller/gettasks', 'getTasks');
 });
-
 
 //projects
 Route::controller(ProjectController::class)->group(function () {

@@ -16,4 +16,9 @@ class TaskService implements TaskServiceInterface {
     public function storeTask(array $data){
        return $this->taskrepo->storeTask($data);
     } 
+
+    public function getTasks(){
+        return $this->taskrepo->getTasks();
+    }
+
 }

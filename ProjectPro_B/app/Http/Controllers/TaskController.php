@@ -26,5 +26,9 @@ class TaskController extends Controller
         return $this->taskservice->storeTask($task);
     }
 
+    public function getTasks(){
+        return $this->taskservice->getTasks();
+    }
+
 
 }
