@@ -6,6 +6,8 @@ const ProjectPage = () => {
   let { state } = useLocation();
 
   const project = state.project;
+
+  console.log(project);
   return (
     <div>
       <section>
@@ -20,7 +22,7 @@ const ProjectPage = () => {
             </p>
           </header>
         </div>
-        <KanbanTable />
+        <KanbanTable project={project} />
       </section>
     </div>
   );

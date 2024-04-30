@@ -46,7 +46,7 @@ const UserProjectsList = () => {
     getProjects();
   }, []);
   let project_linked = showProjects?.projects_list;
-  // console.log(project_linked);
+  console.log(project_linked);
   return (
     <div>
       {" "}

@@ -136,6 +136,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         ->join('project_utilisateur as pu', 'p.id', '=', 'pu.project_id')
         ->join('utilisateurs as ut', 'pu.utilisateur_id', '=', 'ut.id')
         ->join('users as u', 'ut.user_id', '=', 'u.id')
+        ->join('productbacklogs as pb', 'pb.project_id', '=', 'p.id')
         ->whereIn('p.id', function($query) {
             $query->select('project_id')
                   ->from('project_utilisateur')
@@ -143,7 +144,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
                   ;
         })
         ->orderBy('p.name')
-        ->get(['p.id as project_id', 'p.name as project_name','p.status as project_status', 'p.description as project_description', 'u.username', 'u.email','u.picture']);
+        ->get(['p.id as project_id', 'p.name as project_name','p.status as project_status', 'p.description as project_description', 'u.username', 'u.email','u.picture','ut.id as uid','pb.id as productbacklog_id']);
     
     
         $projects = [];
@@ -153,8 +154,13 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
             $projects[$data->project_id]['description'] = $data->project_description;
             $projects[$data->project_id]['id'] = $data->project_id;
             $projects[$data->project_id]['status'] = $data->project_status;
+
+            $projects[$data->productbacklog_id]['productbacklog'] = $data->productbacklog_id;
+
+            
             $projects[$data->project_id]['users'][] = [
                 'username' => $data->username,
+                'id' => $data->uid,
                 'email' => $data->email,
                 'picture' => $data->picture,
             ];

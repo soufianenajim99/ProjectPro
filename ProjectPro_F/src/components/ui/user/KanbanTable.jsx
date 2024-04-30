@@ -8,22 +8,24 @@ import { Avatar, AvatarGroup } from "@nextui-org/react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { users } from "./data";
 import axiosClient from "@/axiosClient";
+import { useForm } from "react-hook-form";
 
-export const KanbanTable = () => {
+export const KanbanTable = ({ project }) => {
+  // console.log(project);
   return (
     <div className="h-screen w-full bg-blue-gray-50 text-black mx-auto">
-      <Board />
+      <Board project={project} />
     </div>
   );
 };
 
-const Board = () => {
+const Board = ({ project }) => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
   const fetchCards = async () => {
     try {
       const response = await axiosClient.get("/taskcontroller/gettasks");
       setCards(response.data.Tasks_list);
-      console.log(response.data.Tasks_list);
+      // console.log(response.data.Tasks_list);
     } catch (error) {
       console.error("Failed to fetch cards:", error);
     }
@@ -35,6 +37,7 @@ const Board = () => {
   return (
     <div className="flex h-full w-full gap-3 overflow-scroll p-12 justify-center">
       <Column
+        project={project}
         title="Project Backlog"
         column="backlog"
         headingColor="text-purple-900"
@@ -42,6 +45,7 @@ const Board = () => {
         setCards={setCards}
       />
       <Column
+        project={project}
         title="TODO"
         column="todo"
         headingColor="text-green-900"
@@ -49,6 +53,7 @@ const Board = () => {
         setCards={setCards}
       />
       <Column
+        project={project}
         title="In progress"
         column="progress"
         headingColor="text-black"
@@ -56,6 +61,7 @@ const Board = () => {
         setCards={setCards}
       />
       <Column
+        project={project}
         title="Complete"
         column="complete"
         headingColor="text-red-900"
@@ -67,7 +73,7 @@ const Board = () => {
   );
 };
 
-const Column = ({ title, headingColor, cards, column, setCards }) => {
+const Column = ({ title, headingColor, cards, column, setCards, project }) => {
   const [active, setActive] = useState(false);
 
   const handleDragStart = (e, card) => {
@@ -189,7 +195,7 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
           return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
         })}
         <DropIndicator beforeId={null} column={column} />
-        <AddCard column={column} setCards={setCards} />
+        <AddCard column={column} setCards={setCards} project={project} />
       </div>
     </div>
   );
@@ -270,54 +276,76 @@ const BurnBarrel = ({ setCards }) => {
   );
 };
 
-const AddCard = ({ column, setCards }) => {
+const AddCard = ({ column, setCards, project }) => {
+  const { register, handleSubmit } = useForm();
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!text.trim().length) return;
-
-    const newCard = {
-      column,
-      title: text.trim(),
-      id: Math.random().toString(),
+  const onSubmit = (data) => {
+    console.log(project.productbacklog, column);
+    const payload = {
+      titre: data.name,
+      productbacklog_id: project.productbacklog,
+      utilisateur_id: data.user,
+      status: column,
     };
 
-    setCards((pv) => [...pv, newCard]);
-
+    axiosClient
+      .post("/taskcontroller/store", payload)
+      .then((response) => {
+        console.log("Success:", response);
+      })
+      .catch((error) => {
+        console.error("Error posting the data:", error);
+      });
     setAdding(false);
   };
+
+  // const handleSubmitt = (e) => {
+  //   e.preventDefault();
+
+  //   if (!text.trim().length) return;
+
+  //   const newCard = {
+  //     column,
+  //     title: text.trim(),
+  //     id: Math.random().toString(),
+  //   };
+
+  //   setCards((pv) => [...pv, newCard]);
+
+  //   setAdding(false);
+  // };
 
   return (
     <>
       {adding ? (
-        <motion.form layout onSubmit={handleSubmit}>
+        <motion.form layout onSubmit={handleSubmit(onSubmit)}>
           <textarea
             onChange={(e) => setText(e.target.value)}
+            {...register("name")}
             autoFocus
             placeholder="Add new task..."
             className="w-full rounded border border-purple-100 bg-blue-gray-200 p-3 text-sm text-black placeholder-blue-gray-800 focus:outline-0"
           />
           <Select
-            items={users}
+            items={project.users}
+            {...register("user")}
             label="Assigned to"
             placeholder="Select a user"
             labelPlacement="outside"
             className="max-w-xs"
           >
             {(user) => (
-              <SelectItem key={user.id} textValue={user.name}>
+              <SelectItem key={user.id} textValue={user.username}>
                 <div className="flex gap-2 items-center">
                   <Avatar
-                    alt={user.name}
+                    alt={user.username}
                     className="flex-shrink-0"
                     size="sm"
-                    src={user.avatar}
+                    src={`http://127.0.0.1:8000/storage/images/profile/${user.picture}`}
                   />
                   <div className="flex flex-col">
-                    <span className="text-small">{user.name}</span>
+                    <span className="text-small">{user.username}</span>
                     <span className="text-tiny text-default-400">
                       {user.email}
                     </span>
