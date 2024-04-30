@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Utilisateur extends Model
 {
@@ -21,5 +22,10 @@ class Utilisateur extends Model
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class,'project_utilisateur','utilisateur_id','project_id')->using(ProjectUtilisateur::class)->withPivot('role');
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
     }
 }

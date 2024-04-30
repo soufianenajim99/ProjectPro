@@ -59,8 +59,7 @@ const UserInbox = () => {
             <Box sx={{ width: "100%" }}>
               <LinearProgress />
             </Box>
-          ) : (
-            showNoti &&
+          ) : showNoti && showNoti.length > 0 ? (
             showNoti.map((item, index) => (
               <InboxCard
                 key={index}
@@ -68,6 +67,10 @@ const UserInbox = () => {
                 onActionComplete={handleRefresh}
               />
             ))
+          ) : (
+            <Alert variant="filled" severity="info">
+              No Notifications for the Moment.
+            </Alert>
           )}
         </div>
       </div>

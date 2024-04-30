@@ -24,14 +24,14 @@ const Board = () => {
       <Column
         title="Project Backlog"
         column="backlog"
-        headingColor="text-black"
+        headingColor="text-purple-900"
         cards={cards}
         setCards={setCards}
       />
       <Column
         title="TODO"
         column="todo"
-        headingColor="text-black"
+        headingColor="text-green-900"
         cards={cards}
         setCards={setCards}
       />
@@ -45,7 +45,7 @@ const Board = () => {
       <Column
         title="Complete"
         column="done"
-        headingColor="text-black"
+        headingColor="text-red-900"
         cards={cards}
         setCards={setCards}
       />
@@ -366,7 +366,6 @@ const DEFAULT_CARDS = [
     column: "doing",
   },
   { title: "Add logging to daily CRON", id: "9", column: "doing" },
-  // DONE
   {
     title: "Set up DD dashboards for Lambda listener",
     id: "10",

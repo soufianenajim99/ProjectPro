@@ -32,7 +32,9 @@ use App\Services\ServicesInterfaces\AdminServiceInterface;
 use App\Services\ServicesInterfaces\ProductbacklogServiceInterface;
 use App\Services\ServicesInterfaces\ProjectServiceInterface;
 use App\Services\ServicesInterfaces\ProjectUtilisateurServiceInterface;
+use App\Services\ServicesInterfaces\TaskServiceInterface;
 use App\Services\ServicesInterfaces\UtilisateurServiceInterface;
+use App\Services\TaskService;
 use App\Services\UtilisateurService;
 use Illuminate\Support\ServiceProvider;
 
@@ -85,6 +87,10 @@ class AppServiceProvider extends ServiceProvider
 
 
 
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
+        $this->app->bind(TaskServiceInterface::class , function ($app) {
+            return new TaskService($app->make(TaskRepositoryInterface::class));
+        });
 
 
 
@@ -92,7 +98,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SprintbacklogRepositoryInterface::class, SprintbacklogRepository::class);
         $this->app->bind(SprintRepositoryInterface::class, SprintRepository::class);
         $this->app->bind(SprintTaskRepositoryInterface::class, SprintTaskRepository::class);
-        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
         $this->app->bind(UtilisateurRepositoryInterface::class, UtilisateurRepository::class);
     }
 
