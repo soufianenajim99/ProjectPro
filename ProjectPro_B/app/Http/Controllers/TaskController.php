@@ -17,7 +17,7 @@ class TaskController extends Controller
     public function storeTask(Request $request){
         $task = $request->only([
            'titre',
-           'status',
+           'column',
            'description',
            'productbacklog_id',
            'utilisateur_id'
@@ -28,6 +28,10 @@ class TaskController extends Controller
 
     public function getTasks(){
         return $this->taskservice->getTasks();
+    }
+
+    public function deletetask(string $id){
+        return $this->taskservice->deletetask($id);
     }
 
 

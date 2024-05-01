@@ -12,13 +12,13 @@ class Task extends Model
 
     protected $fillable =[
         'titre',
-        'status',
+        'column',
         'productbacklog_id',
         'utilisateur_id',
     ];
 
     protected $attributes = [
-        'status' => 'todo',
+        'column' => 'todo',
         'description' =>'description'
     ];
     public function productbacklog(): BelongsTo

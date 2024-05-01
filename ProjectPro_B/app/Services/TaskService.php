@@ -21,4 +21,8 @@ class TaskService implements TaskServiceInterface {
         return $this->taskrepo->getTasks();
     }
 
+    public function deletetask(string $id){
+        return $this->taskrepo->deletetask($id);
+    }
+
 }

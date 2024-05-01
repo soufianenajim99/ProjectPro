@@ -25,7 +25,7 @@ const Board = ({ project }) => {
     try {
       const response = await axiosClient.get("/taskcontroller/gettasks");
       setCards(response.data.Tasks_list);
-      // console.log(response.data.Tasks_list);
+      console.log(response.data.Tasks_list);
     } catch (error) {
       console.error("Failed to fetch cards:", error);
     }
@@ -173,7 +173,7 @@ const Column = ({ title, headingColor, cards, column, setCards, project }) => {
     setActive(false);
   };
 
-  const filteredCards = cards.filter((c) => c.status === column);
+  const filteredCards = cards.filter((c) => c.column === column);
 
   return (
     <div className="w-56 shrink-0">
@@ -201,22 +201,22 @@ const Column = ({ title, headingColor, cards, column, setCards, project }) => {
   );
 };
 
-const Card = ({ titre, id, status, handleDragStart }) => {
+const Card = ({ utilisateur, titre, id, column, handleDragStart }) => {
   return (
     <>
-      <DropIndicator beforeId={id} column={status} />
+      <DropIndicator beforeId={id} column={column} />
       <motion.div
         layout
         layoutId={id}
         draggable="true"
-        onDragStart={(e) => handleDragStart(e, { titre, id, status })}
+        onDragStart={(e) => handleDragStart(e, { titre, id, column })}
         className="cursor-grab rounded border border-gray-700 bg-blue-gray-500 p-3 my-5 active:cursor-grabbing"
       >
         <div className="flex flex-col">
           <p className="text-sm text-neutral-100">{titre}</p>
           <Avatar
             isBordered
-            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+            src={`http://127.0.0.1:8000/storage/images/profile/${utilisateur?.user?.picture}`}
             size="sm"
             className=" mt-2 self-end"
           />
@@ -238,6 +238,26 @@ const DropIndicator = ({ beforeId, column }) => {
 
 const BurnBarrel = ({ setCards }) => {
   const [active, setActive] = useState(false);
+  const handleRemoveTask = (cardId) => {
+    try {
+      axiosClient
+        .delete(`/tasks/deletetask/${cardId}`)
+        .then((response) => {
+          console.log("Success:", response.data.task_deleted.id);
+          setCards((pv) =>
+            pv.filter((c) => c.id !== response.data.task_deleted.id)
+          );
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            console.log(response.data.errors);
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -250,9 +270,9 @@ const BurnBarrel = ({ setCards }) => {
 
   const handleDragEnd = (e) => {
     const cardId = e.dataTransfer.getData("cardId");
-
+    handleRemoveTask(cardId);
     setCards((pv) => pv.filter((c) => c.id !== cardId));
-
+    console.log(cardId);
     setActive(false);
   };
 
@@ -281,18 +301,19 @@ const AddCard = ({ column, setCards, project }) => {
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
   const onSubmit = (data) => {
-    console.log(project.productbacklog, column);
+    // console.log(project.productbacklog, column);
     const payload = {
       titre: data.name,
       productbacklog_id: project.productbacklog,
       utilisateur_id: data.user,
-      status: column,
+      column: column,
     };
 
     axiosClient
       .post("/taskcontroller/store", payload)
       .then((response) => {
-        console.log("Success:", response);
+        // console.log("Success:", response);
+        setCards((pv) => [...pv, response.data.Task_Created]);
       })
       .catch((error) => {
         console.error("Error posting the data:", error);

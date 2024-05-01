@@ -24,7 +24,7 @@ const NavbarAdmin = () => {
     });
   };
   return (
-    <Navbar isBordered maxWidth="full" className=" ">
+    <Navbar isBordered maxWidth="full" className=" " shouldHideOnScroll>
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <Link to="/" className="nav-link">

@@ -19,9 +19,17 @@ class TaskRepository implements TaskRepositoryInterface
     }
 
     public function getTasks(){
-        $tasks = Task::all();
+        $tasks = Task::with('utilisateur.user')->get();
         return response()->json([
             'Tasks_list' => $tasks,
+        ]);
+    }
+
+    public function deletetask(string $id){
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return response()->json([
+            'task_deleted' => $task,
         ]);
     }
 }

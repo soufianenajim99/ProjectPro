@@ -10,7 +10,6 @@ interface TaskRepositoryInterface
     public function storeTask(array $data);
 
     public function getTasks();
-
-
+    public function deletetask(string $id);
    
 }

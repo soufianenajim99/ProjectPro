@@ -27,7 +27,7 @@ const NavbarUser = () => {
 
   // console.log(user);
   return (
-    <Navbar isBordered maxWidth="full" className=" ">
+    <Navbar isBordered maxWidth="full" className=" " shouldHideOnScroll>
       <NavbarContent justify="start">
         <NavbarItem className="mr-4">
           <Link className="nav-link" color="foreground" to="/">
