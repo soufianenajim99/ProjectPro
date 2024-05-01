@@ -7,4 +7,5 @@ interface TaskServiceInterface {
     public function getTasks();
 
     public function deletetask(string $id);
+    public function updateTask(array $data, string $id);
 }

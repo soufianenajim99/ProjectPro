@@ -32,4 +32,14 @@ class TaskRepository implements TaskRepositoryInterface
             'task_deleted' => $task,
         ]);
     }
+
+    public function updateTask(array $data, string $id){
+        $task = Task::findOrFail($id);
+        $task->column = $data['column'];
+        $task->save();
+        return response()->json([
+            'task_updated'=>'succefuly',
+            'task' => $task,
+        ]);
+    }
 }

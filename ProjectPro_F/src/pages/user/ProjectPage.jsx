@@ -7,7 +7,7 @@ const ProjectPage = () => {
 
   const project = state.project;
 
-  console.log(project);
+  // console.log(project);
   return (
     <div>
       <section>

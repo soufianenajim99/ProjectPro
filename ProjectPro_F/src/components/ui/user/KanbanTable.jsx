@@ -21,18 +21,19 @@ export const KanbanTable = ({ project }) => {
 
 const Board = ({ project }) => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
+  const [rende, setrende] = useState(0);
   const fetchCards = async () => {
     try {
       const response = await axiosClient.get("/taskcontroller/gettasks");
       setCards(response.data.Tasks_list);
-      console.log(response.data.Tasks_list);
+      // console.log(response.data.Tasks_list);
     } catch (error) {
       console.error("Failed to fetch cards:", error);
     }
   };
   useEffect(() => {
     fetchCards();
-  }, []);
+  }, [rende]);
 
   return (
     <div className="flex h-full w-full gap-3 overflow-scroll p-12 justify-center">
@@ -41,6 +42,8 @@ const Board = ({ project }) => {
         title="Project Backlog"
         column="backlog"
         headingColor="text-purple-900"
+        rende={rende}
+        setrende={setrende}
         cards={cards}
         setCards={setCards}
       />
@@ -50,6 +53,8 @@ const Board = ({ project }) => {
         column="todo"
         headingColor="text-green-900"
         cards={cards}
+        rende={rende}
+        setrende={setrende}
         setCards={setCards}
       />
       <Column
@@ -58,6 +63,8 @@ const Board = ({ project }) => {
         column="progress"
         headingColor="text-black"
         cards={cards}
+        rende={rende}
+        setrende={setrende}
         setCards={setCards}
       />
       <Column
@@ -66,6 +73,8 @@ const Board = ({ project }) => {
         column="complete"
         headingColor="text-red-900"
         cards={cards}
+        rende={rende}
+        setrende={setrende}
         setCards={setCards}
       />
       <BurnBarrel setCards={setCards} />
@@ -73,7 +82,16 @@ const Board = ({ project }) => {
   );
 };
 
-const Column = ({ title, headingColor, cards, column, setCards, project }) => {
+const Column = ({
+  title,
+  headingColor,
+  cards,
+  column,
+  setCards,
+  project,
+  rende,
+  setrende,
+}) => {
   const [active, setActive] = useState(false);
 
   const handleDragStart = (e, card) => {
@@ -94,24 +112,37 @@ const Column = ({ title, headingColor, cards, column, setCards, project }) => {
     if (before !== cardId) {
       let copy = [...cards];
 
-      let cardToTransfer = copy.find((c) => c.id === cardId);
+      let cardToTransfer = copy.find((c) => c.id == cardId);
       if (!cardToTransfer) return;
-      cardToTransfer = { ...cardToTransfer, column };
+      console.log(cardToTransfer);
 
-      copy = copy.filter((c) => c.id !== cardId);
-
-      const moveToBack = before === "-1";
-
-      if (moveToBack) {
-        copy.push(cardToTransfer);
-      } else {
-        const insertAtIndex = copy.findIndex((el) => el.id === before);
-        if (insertAtIndex === undefined) return;
-
-        copy.splice(insertAtIndex, 0, cardToTransfer);
+      try {
+        const payload = {
+          column: column,
+        };
+        axiosClient
+          .patch(`/tasks/updateTask/${cardId}`, payload)
+          .then((response) => {
+            console.log("Success:", response);
+            cardToTransfer = { ...cardToTransfer, column };
+            copy = copy.filter((c) => c.id !== +cardId);
+            console.log(copy);
+            setCards(copy);
+            setrende(++rende);
+            console.log(rende);
+          })
+          .catch((err) => {
+            const response = err.response;
+            if (response && response.status === 422) {
+              console.log(response.data.errors);
+            }
+          });
+      } catch (error) {
+        console.error(error);
       }
-
-      setCards(copy);
+      cardToTransfer = { ...cardToTransfer, column };
+      console.log(cardToTransfer);
+      console.log(copy, cardId);
     }
   };
 

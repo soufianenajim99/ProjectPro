@@ -34,5 +34,12 @@ class TaskController extends Controller
         return $this->taskservice->deletetask($id);
     }
 
+    public function updateTask(Request $request, string $id){
+        $data = $request->only([
+          'column',
+        ]);
+        return $this->taskservice->updateTask($data,$id);
+      }
+
 
 }
