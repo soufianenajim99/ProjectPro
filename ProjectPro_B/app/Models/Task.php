@@ -15,6 +15,7 @@ class Task extends Model
         'column',
         'productbacklog_id',
         'utilisateur_id',
+        'sprintbacklog_id',
     ];
 
     protected $attributes = [
@@ -24,6 +25,10 @@ class Task extends Model
     public function productbacklog(): BelongsTo
     {
         return $this->belongsTo(Productbacklog::class);
+    }
+    public function sprintbacklog(): BelongsTo
+    {
+        return $this->belongsTo(Sprintbacklog::class);
     }
     public function utilisateur(): BelongsTo
     {

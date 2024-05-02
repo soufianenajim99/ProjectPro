@@ -20,7 +20,8 @@ class TaskController extends Controller
            'column',
            'description',
            'productbacklog_id',
-           'utilisateur_id'
+           'utilisateur_id',
+           'sprintbacklog_id',
         ]);
 
         return $this->taskservice->storeTask($task);

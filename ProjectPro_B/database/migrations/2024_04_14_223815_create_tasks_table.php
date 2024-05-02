@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('column', ['todo', 'progress','complete']);
             $table->longText('description');
             $table->foreignId('productbacklog_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('sprintbacklog_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('utilisateur_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

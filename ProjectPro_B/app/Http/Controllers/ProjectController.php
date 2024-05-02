@@ -20,7 +20,9 @@ class ProjectController extends Controller
     public function createproject(Request $request){
           $project = $request->only([
             'name',
-            'description'
+            'description',
+            'sprint_number',
+            'duree'
           ]);
           return response()->json(
             [

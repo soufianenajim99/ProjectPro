@@ -6,6 +6,8 @@ use App\Models\Inventory;
 use App\Models\Productbacklog;
 use App\Models\Project;
 use App\Models\ProjectUtilisateur;
+use App\Models\Sprint;
+use App\Models\Sprintbacklog;
 use App\RepositoryInterfaces\ProductbacklogRepositoryInterface;
 use App\RepositoryInterfaces\ProjectRepositoryInterface;
 use Carbon\Carbon;
@@ -20,7 +22,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         $scrum_id =Auth::guard('api')->user()->utilisateur()->first()->id;
 
-        $data = [
+        $datapu = [
             'utilisateur_id' => $scrum_id,
             'project_id' => $project->id,
             'validated_at' => Carbon::now(),
@@ -32,13 +34,33 @@ class ProjectRepository implements ProjectRepositoryInterface
             'description' => 'Product Backlog for '.$project->name
         ];
 
+       
+        $startDate = Carbon::now();
+
+        
+        for ($i = 1; $i <= $data['sprint_number']; $i++) {
+            $endDate = $startDate->copy()->addWeeks((int)$data['duree'])->subDay();
+            $sprint =Sprint::create([
+                'project_id' => $project->id,
+                'name' => 'Sprint ' . $i,
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+            ]);
+            Sprintbacklog::create([
+                'sprint_id' => $sprint->id,
+                'description' => 'Description of Sprint ' . $i,
+            ]);
+            $startDate=$endDate->addDay();
+        }
+
         Productbacklog::create($backlogdata);
-        $pu = ProjectUtilisateur::create($data);
+        $pu = ProjectUtilisateur::create($datapu);
         
 
         
         return response()->json([
             'project_id' => $project->id,
+            'data' => $data['sprint_number'],
         ]);
     }
     public function deleteproject(string $id){

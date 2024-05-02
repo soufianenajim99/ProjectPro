@@ -10,16 +10,18 @@ import { users } from "./data";
 import axiosClient from "@/axiosClient";
 import { useForm } from "react-hook-form";
 
-export const KanbanTable = ({ project }) => {
-  // console.log(project);
+export const KanbanTable = ({ project, sbd }) => {
+  console.log(project);
+
   return (
     <div className="h-screen w-full bg-blue-gray-50 text-black mx-auto">
-      <Board project={project} />
+      {/* <div>{sbd}</div> */}
+      <Board project={project} sbd={sbd} />
     </div>
   );
 };
 
-const Board = ({ project }) => {
+const Board = ({ project, sbd }) => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
   const [rende, setrende] = useState(0);
   const fetchCards = async () => {
@@ -46,6 +48,7 @@ const Board = ({ project }) => {
         setrende={setrende}
         cards={cards}
         setCards={setCards}
+        sbd={sbd}
       />
       <Column
         project={project}
@@ -56,6 +59,7 @@ const Board = ({ project }) => {
         rende={rende}
         setrende={setrende}
         setCards={setCards}
+        sbd={sbd}
       />
       <Column
         project={project}
@@ -66,6 +70,7 @@ const Board = ({ project }) => {
         rende={rende}
         setrende={setrende}
         setCards={setCards}
+        sbd={sbd}
       />
       <Column
         project={project}
@@ -76,6 +81,7 @@ const Board = ({ project }) => {
         rende={rende}
         setrende={setrende}
         setCards={setCards}
+        sbd={sbd}
       />
       <BurnBarrel setCards={setCards} />
     </div>
@@ -91,6 +97,7 @@ const Column = ({
   project,
   rende,
   setrende,
+  sbd,
 }) => {
   const [active, setActive] = useState(false);
 
@@ -225,16 +232,28 @@ const Column = ({
         }`}
       >
         {filteredCards.map((c) => {
-          return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
+          return (
+            <Card
+              key={c.id}
+              {...c}
+              handleDragStart={handleDragStart}
+              sbd={sbd}
+            />
+          );
         })}
         <DropIndicator beforeId={null} column={column} />
-        <AddCard column={column} setCards={setCards} project={project} />
+        <AddCard
+          column={column}
+          setCards={setCards}
+          project={project}
+          sbd={sbd}
+        />
       </div>
     </div>
   );
 };
 
-const Card = ({ utilisateur, titre, id, column, handleDragStart }) => {
+const Card = ({ utilisateur, titre, id, column, handleDragStart, sbd }) => {
   return (
     <>
       <DropIndicator beforeId={id} column={column} />
@@ -329,19 +348,20 @@ const BurnBarrel = ({ setCards }) => {
   );
 };
 
-const AddCard = ({ column, setCards, project }) => {
+const AddCard = ({ column, setCards, project, sbd }) => {
   const { register, handleSubmit } = useForm();
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
   const onSubmit = (data) => {
-    // console.log(project.productbacklog, column);
     const payload = {
       titre: data.name,
       productbacklog_id: project.productbacklog,
       utilisateur_id: data.user,
       column: column,
+      sprintbacklog_id: sbd,
     };
 
+    console.log(payload);
     axiosClient
       .post("/taskcontroller/store", payload)
       .then((response) => {

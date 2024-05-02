@@ -54,10 +54,12 @@ const UserProjects = () => {
   const onSubmit = (data) => {
     let teamArray = data.team.split(",");
     let teamNumbers = teamArray.map(Number);
-
+    console.log(data);
     const payload = {
       name: data.name,
       description: data.description,
+      sprint_number: data.sprint_number,
+      duree: data.duree,
     };
     try {
       axiosClient
@@ -216,6 +218,33 @@ const UserProjects = () => {
                       placeholder="Enter your project description"
                       {...register("description")}
                     />
+                  </div>
+                  <div className="col-span-6">
+                    <label
+                      htmlFor="number"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Number Of Sprints
+                    </label>
+
+                    <Input
+                      type="number"
+                      id="number"
+                      placeholder="Enter your number of Sprints"
+                      {...register("sprint_number")}
+                    />
+                  </div>
+
+                  <div className="col-span-6">
+                    <select
+                      {...register("duree")}
+                      className="bg-white border border-gray-300 text-gray-700 py-2 px-4 block w-full rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    >
+                      <option value="1">1 semaine</option>
+                      <option value="2">2 semaine</option>
+                      <option value="3">3 semaine</option>
+                      <option value="4">4 semaine</option>
+                    </select>
                   </div>
 
                   <div className="col-span-6">

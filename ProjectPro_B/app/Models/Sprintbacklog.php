@@ -16,15 +16,17 @@ class Sprintbacklog extends Model
         'status',
         'sprint_id',
     ];
-
+    protected $attributes = [
+        'status' => 'En cours',
+    ];
     public function sprint(): BelongsTo
     {
         return $this->belongsTo(Sprint::class);
     }
 
-    public function sprinttasks(): HasMany
+    public function tasks(): HasMany
     {
-        return $this->hasMany(SprintTask::class);
+        return $this->hasMany(Task::class);
     }
 
 }

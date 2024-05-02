@@ -150,12 +150,13 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
         $projects = [];
     
         foreach ($projectData as $data) {
+            
             $projects[$data->project_id]['name'] = $data->project_name;
             $projects[$data->project_id]['description'] = $data->project_description;
             $projects[$data->project_id]['id'] = $data->project_id;
             $projects[$data->project_id]['status'] = $data->project_status;
+            $projects[$data->project_id]['productbacklog'] = $data->productbacklog_id;
 
-            $projects[$data->productbacklog_id]['productbacklog'] = $data->productbacklog_id;
 
             
             $projects[$data->project_id]['users'][] = [
@@ -164,6 +165,28 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface
                 'email' => $data->email,
                 'picture' => $data->picture,
             ];
+            if (empty($projects[$data->project_id]['sprints'])){
+
+                $sprints = DB::table('sprints')->where('project_id', $data->project_id)->get();
+    
+                foreach ($sprints as $sprint) {
+                    $sprintBacklog = DB::table('sprintbacklogs')
+                                       ->where('sprint_id', $sprint->id)
+                                       ->first();
+        
+                 $projects[$data->project_id]['sprints'][] = [
+                     'sprint_id' => $sprint->id,
+                     'name' => $sprint->name,
+                     'start_date' => $sprint->start_date,
+                        'end_date' => $sprint->end_date,
+                        'sprint_backlog' => $sprintBacklog ? [
+                            'id' => $sprintBacklog->id,
+                            'description' => $sprintBacklog->description,
+                        ] : null,
+                    ];
+                }
+            }
+
         }
         
         $projects = array_values($projects);

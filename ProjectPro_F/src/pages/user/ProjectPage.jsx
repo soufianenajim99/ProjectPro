@@ -1,5 +1,6 @@
 import { KanbanTable } from "@/components/ui/user/KanbanTable";
-import React from "react";
+import { Select, SelectItem } from "@nextui-org/react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const ProjectPage = () => {
@@ -7,7 +8,12 @@ const ProjectPage = () => {
 
   const project = state.project;
 
-  // console.log(project);
+  console.log(project.sprints);
+  const [selectedSprintBacklogId, setSelectedSprintBacklogId] = useState("");
+
+  const handleSelectChange = (event) => {
+    setSelectedSprintBacklogId(event.target.value);
+  };
   return (
     <div>
       <section>
@@ -21,8 +27,29 @@ const ProjectPage = () => {
               {project.description}
             </p>
           </header>
+          <div className=" flex items-center justify-center mt-4">
+            <Select
+              className=" w-1/3"
+              label="Sprint"
+              placeholder="Sprint"
+              onChange={handleSelectChange}
+              // {...register("duree")}
+            >
+              {project.sprints.map((sprint) => (
+                <SelectItem
+                  key={sprint.sprint_id}
+                  value={sprint.sprint_backlog.id}
+                >
+                  {sprint.name}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
         </div>
-        <KanbanTable project={project} />
+        {/* {selectedSprintBacklogId && (
+          <div>Selected Sprint Backlog ID: {selectedSprintBacklogId}</div>
+        )} */}
+        <KanbanTable project={project} sbd={selectedSprintBacklogId} />
       </section>
     </div>
   );
