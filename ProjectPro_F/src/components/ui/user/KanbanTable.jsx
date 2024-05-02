@@ -204,7 +204,9 @@ const Column = ({
     setActive(false);
   };
 
-  const filteredCards = cards.filter((c) => c.column === column);
+  const filteredCards = cards.filter(
+    (c) => c.column === column || column === "backlog"
+  );
 
   return (
     <div className="w-56 shrink-0">
